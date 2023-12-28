@@ -2,7 +2,8 @@
 
 # class Profile
 class Profile
-  attr_reader :id, :user, :email, :posts
+  attr_accessor :posts
+  attr_reader :id, :user, :email
 
   def initialize(id, user, email, posts)
     @id = id
