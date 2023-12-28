@@ -11,4 +11,16 @@ class AdvancedPost < Post
     @hashtags = hashtags
     @remaining_views = remaining_views
   end
+
+  def add_hashtag(hashtag)
+    @hashtags << hashtag
+  end
+
+  def hashtag?(hashtag)
+    @hashtags.include?(hashtag)
+  end
+
+  def decrement_views
+    @remaining_views -= 1
+  end
 end

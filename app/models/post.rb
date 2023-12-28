@@ -12,4 +12,16 @@ class Post
     @date = params[:date]
     @profile = params[:profile]
   end
+
+  def popular?
+    @likes >= (@dislikes * 1.5)
+  end
+
+  def like
+    @likes += 1
+  end
+
+  def dislike
+    @dislikes += 1
+  end
 end
