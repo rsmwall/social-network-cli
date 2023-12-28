@@ -21,6 +21,8 @@ class PostRepo
         return post
       end
     end
+
+    nil
   end
 
   def advanced_post?(post, hashtag)
