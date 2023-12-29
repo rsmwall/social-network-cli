@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require_relative 'profile'
+
 # class Post
 class Post
   attr_reader :id, :text, :likes, :dislikes, :date, :profile
