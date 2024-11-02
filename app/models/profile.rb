@@ -4,10 +4,10 @@
 class Profile
   attr_reader :id, :user, :email, :posts
 
-  def initialize(id, user, email)
-    @id = id
-    @user = user
-    @email = email
+  def initialize(params)
+    @id = params[:id]
+    @user = params[:user]
+    @email = params[:email]
     @posts = []
   end
 end
