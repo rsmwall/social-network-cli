@@ -2,7 +2,7 @@
 
 # class Post
 class Post
-  attr_reader :id, :text, :likes, :deslikes, :date, :profile
+  attr_reader :id, :text, :likes, :dislikes, :date, :profile
 
   def initialize(params)
     @id = params[:id]
@@ -18,10 +18,10 @@ class Post
   end
 
   def dislike
-    @dislike += 1
+    @dislikes += 1
   end
 
-  def is_popular
+  def is_popular?
     @likes >= (@dislikes * 1.5)
   end
 end
