@@ -4,13 +4,13 @@ require '../models/profile.rb'
 
 # class Profile Repository
 class ProfileRepository
+  attr_reader :profiles
   def initialize
     @profiles = {}
   end
 
-  def add(profile)
-    return if @profiles.key?(profile.id)
-
+  def add(params)
+    profile = Profile.new(id: params[:id], user: params[:user], email: params[:email])
     @profiles[profile.id] = profile
   end
 
