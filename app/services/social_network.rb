@@ -33,4 +33,19 @@ class SocialNetwork
   def search_post(params)
     @post_repo.search(params)
   end
+
+  def like(id)
+    post = search_post(id: id)
+    post.like if !post.nil?
+  end
+
+  def dislike(id)
+    post = search_post(id: id)
+    post.dislike if !post.nil?
+  end
+
+  def decrement_views(id)
+    post = search_post(id: id)
+    post.decrement_views if !post.nil?
+  end
 end

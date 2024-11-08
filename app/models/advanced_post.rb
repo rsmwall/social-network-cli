@@ -21,6 +21,6 @@ class AdvancedPost < Post
   end
 
   def decrement_views
-    @remaining_views -= 1
+    @remaining_views -= 1 if @remaining_views > 0
   end
 end
