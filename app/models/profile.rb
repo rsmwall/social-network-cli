@@ -15,8 +15,6 @@ class Profile
   end
 
   def add(post)
-    return if @posts.include?(post.id)
-
     @posts << post
   end
 end
