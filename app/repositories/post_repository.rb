@@ -11,19 +11,14 @@ class PostRepository
   end
 
   def add(params)
-    if params.key?(:hashtag)
-      post = AdvancedPost.new(
-        id: params[:id], text: params[:text], likes: params[:likes], 
-        dislikes: params[:dislikes], date: params[:date], profile: params[:profile], 
-        hashtags: params[:hashtags], remaining_views: params[:remaining_views])
+    if params.key?(:hashtags)
+      post = AdvancedPost.new(params, params[:hashtags],params[:remaining_views])
     else
-      post = Post.new(
-        id: params[:id], text: params[:text], likes: params[:likes], 
-        dislikes: params[:dislikes], date: params[:date], profile: params[:profile])
+      post = Post.new(params)
     end
 
     @posts[post.id] = post
-    params[:profile].add(post)
+    params[:profile].add(post) if params[:profile]
   end
 
   def search(params)
