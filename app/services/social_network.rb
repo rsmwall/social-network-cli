@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-require_relative './profile_repository'
-require_relative './post_repository'
+require_relative '../repositories/profile_repository'
+require_relative '../repositories/post_repository'
 
 # class Social Network
 class SocialNetwork
