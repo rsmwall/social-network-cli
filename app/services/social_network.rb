@@ -46,6 +46,27 @@ class SocialNetwork
 
   def decrement_views(id)
     post = search_post(id: id)
-    post.decrement_views if !post.nil?
+    post.decrement_views if !post.nil? && post.instance_of?(AdvancedPost)
+  end
+
+  def show_post_profile(id)
+    profile = search_profile(id: id)
+    all_posts = @post_repo.show_posts
+    profile_posts = []
+    all_posts.each { |_, value| profile_posts << value if value.profile.id == profile.id }
+    
+    posts = []
+    if !profile.nil?
+      profile_posts.each do |post|
+        if !post.instance_of?(AdvancedPost)
+          posts << post
+        elsif post.remaining_views > 0
+          decrement_views(post.id)
+          posts << post
+        end
+      end
+    end
+
+    posts
   end
 end
