@@ -18,7 +18,6 @@ class PostRepository
     end
 
     @posts[post.id] = post
-    params[:profile].add(post) if params[:profile]
   end
 
   def search(params)
@@ -44,5 +43,9 @@ class PostRepository
     end
 
     post
+  end
+
+  def show_posts
+    @posts
   end
 end

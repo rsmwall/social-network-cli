@@ -13,8 +13,4 @@ class Profile
     @email = params[:email]
     @posts = []
   end
-
-  def add(post)
-    @posts << post
-  end
 end
