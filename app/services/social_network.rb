@@ -69,4 +69,15 @@ class SocialNetwork
 
     posts
   end
+
+  def show_post_by_hashtag(hashtag)
+    all_posts = @post_repo.show_posts
+    posts = []
+    all_posts.each do |_, value| 
+      posts << value if 
+        value.instance_of?(AdvancedPost) && value.hashtags.include?(hashtag) && value.remaining_views > 0
+    end
+
+    posts
+  end
 end
