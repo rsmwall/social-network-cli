@@ -12,10 +12,11 @@ class SocialNetwork
 
   # profile methods
   def add_profile(params)
-    return if params.any? { |_, value| value.nil? } ||
+    return false if params.any? { |_, value| value.nil? } ||
       !@profile_repo.search(id: params[:id], user: params[:user], email: params[:email]).nil?
     
     @profile_repo.add(params)
+    true
   end
 
   def search_profile(params)
