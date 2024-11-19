@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require '../models/profile'
+require_relative '../models/profile'
 
 # class Profile Repository
 class ProfileRepository
