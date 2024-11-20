@@ -26,7 +26,7 @@ class App
   def menu_action(option)
     case option
     when 1 then add_profile
-    when 2 then search_profile
+    when 2 then search
     when 3 then add_post
     end
   end
@@ -35,6 +35,16 @@ class App
     puts "\nPress Enter to return to the menu..."
     key = gets
     menu if key == "\n"
+  end
+
+  def search
+    puts "\n❖ Search\n\n"
+    print "\nType something starting with: @ to search for a profile,\n# for a hashtag or just the text to search posts\n> "
+    term = gets.chomp
+
+    search_profile(term[1..-1]) if term.start_with?('@')
+    search_hashtag(term[1..-1]) if term.start_with?('#')
+    search_post(term)
   end
 
   # profile methods
@@ -51,16 +61,13 @@ class App
     enter_key
   end
 
-  def search_profile
-    puts "\n❖ Search Profile\n\n"
-    print "\nEnter User\n> "
-    user = gets.chomp
-
-    result = @social_network.search_profile(user)
+  def search_profile(user)
+    result = @social_network.search_profile(user, 1)
 
     if result
-      puts "\nProfile found."
-      result.each { |_, profile| puts "\nID > #{profile.id}\nUSER > @#{profile.user}\nE-MAIL > #{profile.email}" }
+      result.each do |_, profile| 
+        puts "\nUSER > @#{profile.user}\nE-MAIL > #{profile.email}"
+      end
     else
       puts "\nNo profile found with the given criteria."
     end
@@ -72,16 +79,14 @@ class App
 
   def add_post
     puts "\n❖ Add Post\n\n"
-    print "\nEnter ID\n> "
-    id = gets.chomp.to_i
     print "\nEnter Text\n> "
     text = gets.chomp
     print "\nEnter User\n> "
     user = gets.chomp
     
-    result = @social_network.search_profile(user: user)
+    result = @social_network.search_profile(user, 2)
     if result.nil?
-      puts "\nNo profile found with the given criteria."
+      puts "\nNo profile found with this user."
       enter_key
     end
     success = nil
@@ -96,17 +101,33 @@ class App
         hashtags = input.split(',').map(&:strip)
 
         success = @social_network.add_post(
-          id: id, text: text, likes: 0, dislikes: 0, date: Time.now, profile: result,
+          text: text, likes: 0, dislikes: 0, date: Time.now, profile: result,
           hashtags: hashtags, remaining_views: 100)
         break
       elsif option == 'n'
         success = @social_network.add_post(
-          id: id, text: text, likes: 0, dislikes: 0, date: Time.now, profile: result)
+          text: text, likes: 0, dislikes: 0, date: Time.now, profile: result)
         break
       end
     end
 
     puts success ? "\n\nPost added successfully!" : "\n\nError creating post!"
+    enter_key
+  end
+
+  def search_hashtag(hashtag)
+    result = @social_network.show_post_by_hashtag(hashtag)
+
+    if result
+      result.each do |post|
+        post_print = "\n@#{post.profile.user}\n#{post.text}\n#{post.date}"
+        post_print << "\n\n" + post.hashtags.map { |hashtag| "##{hashtag}" }.join(" ") if post.instance_of?(AdvancedPost)
+        puts "#{post_print}\n\n▲ #{post.likes}  ▼#{post.dislikes}"
+      end
+    else
+      puts "\nNo post found with this hashtag."
+    end
+
     enter_key
   end
 end
