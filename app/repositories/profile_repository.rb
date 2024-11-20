@@ -7,14 +7,16 @@ class ProfileRepository
   attr_reader :profiles
   def initialize
     @profiles = {}
+    @next_id = 1
   end
 
   def add(params)
-    profile = Profile.new(id: params[:id], user: params[:user], email: params[:email])
+    profile = Profile.new(id: @next_id, user: params[:user], email: params[:email])
+    @next_id += 1
     @profiles[profile.id] = profile
   end
 
-  def search(params)
+  def search_to_add(params)
     params = params.reject { |_, value| value.nil? }
 
     profile = nil
@@ -26,5 +28,13 @@ class ProfileRepository
     end
 
     profile
+  end
+
+  def search(user)
+    profiles_result = []
+
+    @profiles.each do |_, profile|
+      profiles_result << profile if profile.user.include?(user)
+    end
   end
 end
