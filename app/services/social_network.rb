@@ -19,14 +19,17 @@ class SocialNetwork
     true
   end
 
-  def search_profile(user)
-    @profile_repo.search(user)
+  def search_profile(user, reason)
+    if reason == 1
+      @profile_repo.search(user)
+    elsif reason == 2
+      @profile_repo.search_to_add(user: user)
+    end
   end
 
   # post methods
   def add_post(params)
-    return false if params.any? { |_, value| value.nil? } ||
-      !@post_repo.search(id: params[:id]).nil?
+    return false if params.any? { |_, value| value.nil? }
     
     @post_repo.add(params)
     true
@@ -51,8 +54,8 @@ class SocialNetwork
     post.decrement_views if !post.nil? && post.instance_of?(AdvancedPost)
   end
 
-  def show_post_profile(id)
-    profile = search_profile(id: id)
+  def show_post_profile(user)
+    profile = search_profile(user, 2)
     all_posts = @post_repo.show_posts
     profile_posts = []
     all_posts.each { |_, value| profile_posts << value if value.profile.id == profile.id }
@@ -73,11 +76,12 @@ class SocialNetwork
   end
 
   def show_post_by_hashtag(hashtag)
-    all_posts = @post_repo.show_posts
     posts = []
-    all_posts.each do |_, value| 
-      posts << value if 
-        value.instance_of?(AdvancedPost) && value.hashtags.include?(hashtag) && value.remaining_views > 0
+    @post_repo.show_posts.each do |_, post|
+      if post.instance_of?(AdvancedPost) && post.has_hashtag?(hashtag) && post.remaining_views > 0
+          posts << post
+          post.decrement_views
+      end
     end
 
     posts
