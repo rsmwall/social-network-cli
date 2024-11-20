@@ -12,11 +12,15 @@ class PostRepository
   end
 
   def add(params)
-    params_full = {id: @netx_id}.merge(params)
     if params.key?(:hashtags)
-      post = AdvancedPost.new(params_full, params[:hashtags], params[:remaining_views])
+      post = AdvancedPost.new(
+        {id: @next_id, text: params[:text], likes: params[:likes], dislikes: params[:dislikes],
+        date: params[:date], profile: params[:profile]}, params[:hashtags], params[:remaining_views])
     else
-      post = Post.new(params_full)
+      post = Post.new(
+        id: @next_id, text: params[:text], likes: params[:likes], dislikes: params[:dislikes],
+        date: params[:date], profile: params[:profile]
+      )
     end
 
     @next_id += 1
@@ -35,6 +39,7 @@ class PostRepository
           when :hashtags
             if value.instance_of?(AdvancedPost)
               value.has_hashtag?(param_value)
+              value.decrement_views
             end
           else
             value.send(param_key) == param_value
