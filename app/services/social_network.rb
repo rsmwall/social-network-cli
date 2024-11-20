@@ -13,22 +13,23 @@ class SocialNetwork
   # profile methods
   def add_profile(params)
     return false if params.any? { |_, value| value.nil? } ||
-      !@profile_repo.search(id: params[:id], user: params[:user], email: params[:email]).nil?
+      !@profile_repo.search_to_add(user: params[:user], email: params[:email]).nil?
     
     @profile_repo.add(params)
     true
   end
 
-  def search_profile(params)
-    @profile_repo.search(params)
+  def search_profile(user)
+    @profile_repo.search(user)
   end
 
   # post methods
   def add_post(params)
-    return if params.any? { |_, value| value.nil? } ||
+    return false if params.any? { |_, value| value.nil? } ||
       !@post_repo.search(id: params[:id]).nil?
     
     @post_repo.add(params)
+    true
   end
 
   def search_post(params)
