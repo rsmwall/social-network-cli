@@ -8,15 +8,18 @@ require_relative '../models/profile'
 class PostRepository
   def initialize
     @posts = {}
+    @next_id = 1
   end
 
   def add(params)
+    params_full = {id: @netx_id}.merge(params)
     if params.key?(:hashtags)
-      post = AdvancedPost.new(params, params[:hashtags],params[:remaining_views])
+      post = AdvancedPost.new(params_full, params[:hashtags], params[:remaining_views])
     else
-      post = Post.new(params)
+      post = Post.new(params_full)
     end
 
+    @next_id += 1
     @posts[post.id] = post
   end
 
