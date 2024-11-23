@@ -5,6 +5,7 @@ require_relative '../models/profile'
 # class Profile Repository
 class ProfileRepository
   attr_reader :profiles
+  
   def initialize
     @profiles = {}
     @next_id = 1

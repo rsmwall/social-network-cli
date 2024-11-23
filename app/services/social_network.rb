@@ -5,12 +5,15 @@ require_relative '../repositories/post_repository'
 
 # class Social Network
 class SocialNetwork
+  attr_reader :profile_repo
+
   def initialize
     @profile_repo = ProfileRepository.new
     @post_repo = PostRepository.new
   end
 
   # profile methods
+
   def add_profile(params)
     return false if params.any? { |_, value| value.nil? } ||
       !@profile_repo.search_to_add(user: params[:user], email: params[:email]).nil?
@@ -28,6 +31,7 @@ class SocialNetwork
   end
 
   # post methods
+
   def add_post(params)
     return false if params.any? { |_, value| value.nil? }
     
@@ -85,5 +89,21 @@ class SocialNetwork
     end
 
     posts
+  end
+
+  # persistence methods
+
+  def save_data
+    @profile_repo.save('../data/profiles.json')
+    @posts_repo.save('../data/posts.json')
+  end
+
+  def load_data
+    @profile_repo.load('../data/profiles.json')
+
+    profiles = @profile_repo.profiles
+    profiles_hash = profiles.transform_keys(&:to_i)
+
+    @post_repo.load('../data/posts.json', profiles_hash)
   end
 end
