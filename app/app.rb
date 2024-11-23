@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require 'bcrypt'
 require_relative './services/social_network.rb'
 
 # class App
@@ -55,8 +56,11 @@ class App
     user = gets.chomp
     print "\nEnter E-mail\n> "
     email = gets.chomp
+    print "\nPassword\n> "
+    password = gets.chomp
 
-    success = @social_network.add_profile(user: user, email: email)
+    hashed_password = BCrypt::Password.create(password)
+    success = @social_network.add_profile(user: user, email: email, password: hashed_password)
     puts success ? "\n\nProfile added successfully!" : "\n\nError adding profile!"
     enter_key
   end
