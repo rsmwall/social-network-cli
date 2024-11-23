@@ -37,4 +37,22 @@ class ProfileRepository
       profiles_result << profile if profile.user.include?(user)
     end
   end
+
+  # persistence
+
+  def save(file_path)
+    data @profiles.value.map(&:to_h)
+    File.write(file_path, JSON.pretty_generate(data))
+  end
+
+  def load(file_path)
+    return unless File.exist?(file_path)
+
+    data = JSON.parse(File.read(file_path))
+    data.each do |profile_hash|
+      profile = Profile.from_h(profile_hash)
+      @profiles[profile.id] = profile
+      @next_id = [@next_id, profile.id + 1].max
+    end
+  end
 end
