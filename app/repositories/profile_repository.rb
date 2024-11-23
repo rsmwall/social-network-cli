@@ -11,7 +11,7 @@ class ProfileRepository
   end
 
   def add(params)
-    profile = Profile.new(id: @next_id, user: params[:user], email: params[:email])
+    profile = Profile.new(id: @next_id, user: params[:user], email: params[:email], password: params[:password])
     @next_id += 1
     @profiles[profile.id] = profile
   end

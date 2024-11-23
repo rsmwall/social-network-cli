@@ -25,6 +25,7 @@ class PostRepository
 
     @next_id += 1
     @posts[post.id] = post
+    @post.profile.add(post.id)
   end
 
   def search(params)
