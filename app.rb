@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require 'bcrypt'
-require_relative './services/social_network.rb'
+require_relative './app/services/social_network.rb'
 
 # class App
 class App
