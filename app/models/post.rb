@@ -24,4 +24,26 @@ class Post
   def is_popular?
     @likes >= (@dislikes * 1.5)
   end
+
+  def to_h
+    {
+      id: @id,
+      text: @text,
+      likes: @likes,
+      dislikes: @dislikes,
+      date: @date,
+      profile_id: @profile.id
+    }
+  end
+
+  def self.from_h(hash, profile)
+    Post.new(
+      id: hash['id'],
+      text: hash['text'],
+      likes: hash['likes'],
+      dislikes: hash['dislikes'],
+      date: hash['date'],
+      profile: profile
+    )
+  end
 end
