@@ -16,11 +16,11 @@ class Authentication
     profile = @profile_repo.search_to_add(user)
     if profile && BCrypt::Password.new(profile[:password]) == password
       @current_user = profile
-      puts "Login successful! Welcome, #{profile.user}."
+      puts "\nLogin successful! Welcome, #{profile.user}."
       sleep(2)
       true
     else
-      puts 'Incorrect username or password!'
+      puts "\nIncorrect username or password!"
       sleep(2)
       false
     end
@@ -28,11 +28,13 @@ class Authentication
 
   def logout
     if @current_user
-      puts 'Logout successful!'
+      puts "\nLogout successful!"
       @current_user = nil
+      sleep(2)
       true
     else
-      puts 'No user logged in!'
+      puts "\nNo user logged in!"
+      sleep(2)
       false
     end
   end
