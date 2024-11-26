@@ -3,19 +3,12 @@
     "id": 1,
     "user": "rsmwall",
     "email": "rafael@email.com",
-    "password": "$2a$12$7cTJZ7q1pxNjGowfTYaMzeql1aEbbLZqFEb9bi4yk68QhqY2cccza",
-    "posts": [
-      "#<Post:0x000001e924ea9a20>",
-      "#<AdvancedPost:0x000001e924ea99d0>"
-    ]
+    "password": "$2a$12$7cTJZ7q1pxNjGowfTYaMzeql1aEbbLZqFEb9bi4yk68QhqY2cccza"
   },
   {
     "id": 2,
     "user": "rblang",
     "email": "rblang@email.com",
-    "password": "$2a$12$oHKlOCUHgyYCu3EYnPIq/.2KX/GvuFb5jk6HIoW.sPHahQJQRsxPa",
-    "posts": [
-      "#<AdvancedPost:0x000001e924ea9980>"
-    ]
+    "password": "$2a$12$oHKlOCUHgyYCu3EYnPIq/.2KX/GvuFb5jk6HIoW.sPHahQJQRsxPa"
   }
 ]

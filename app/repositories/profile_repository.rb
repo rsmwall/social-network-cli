@@ -39,6 +39,8 @@ class ProfileRepository
     @profiles.each do |_, profile|
       profiles_result << profile if profile.user.include?(user)
     end
+
+    profiles_result
   end
 
   # persistence

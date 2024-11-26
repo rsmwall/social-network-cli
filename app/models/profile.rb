@@ -24,8 +24,7 @@ class Profile
       id: @id,
       user: @user,
       email: @email,
-      password: @password,
-      posts: @posts
+      password: @password
     }
   end
 
