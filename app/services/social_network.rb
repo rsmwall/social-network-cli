@@ -60,7 +60,7 @@ class SocialNetwork
 
   def show_post_profile(user)
     profile = search_profile(user, 2)
-    all_posts = @post_repo.show_posts
+    all_posts = @post_repo.posts
     profile_posts = []
     all_posts.each { |_, value| profile_posts << value if value.profile.id == profile.id }
     
@@ -81,7 +81,7 @@ class SocialNetwork
 
   def show_post_by_hashtag(hashtag)
     posts = []
-    @post_repo.show_posts.each do |_, post|
+    @post_repo.posts.each do |_, post|
       if post.instance_of?(AdvancedPost) && post.has_hashtag?(hashtag) && post.remaining_views > 0
           posts << post
           post.decrement_views

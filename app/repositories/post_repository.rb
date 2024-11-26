@@ -6,6 +6,8 @@ require_relative '../models/profile'
 
 # class Post Repository
 class PostRepository
+  attr_reader :posts
+
   def initialize
     @posts = {}
     @next_id = 1
@@ -52,10 +54,6 @@ class PostRepository
     end
 
     post
-  end
-
-  def show_posts
-    @posts
   end
 
   # persistence
