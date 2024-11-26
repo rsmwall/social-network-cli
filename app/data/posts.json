@@ -1,0 +1,36 @@
+[
+  {
+    "id": 1,
+    "text": "This is a post without hashtags",
+    "likes": 0,
+    "dislikes": 0,
+    "date": "2024-11-26 16:30:37 -0300",
+    "profile_id": 1
+  },
+  {
+    "id": 2,
+    "text": "This is a post with hashtags",
+    "likes": 0,
+    "dislikes": 0,
+    "date": "2024-11-26 16:31:06 -0300",
+    "profile_id": 1,
+    "hashtags": [
+      "test",
+      "post"
+    ],
+    "remaining_views": 100
+  },
+  {
+    "id": 3,
+    "text": "Test with another account",
+    "likes": 0,
+    "dislikes": 0,
+    "date": "2024-11-26 16:31:53 -0300",
+    "profile_id": 2,
+    "hashtags": [
+      "ruby",
+      "terminal"
+    ],
+    "remaining_views": 100
+  }
+]
