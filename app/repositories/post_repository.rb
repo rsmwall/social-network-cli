@@ -33,7 +33,7 @@ class PostRepository
   def search(params)
     params = params.reject { |_, value| value.nil? }
 
-    post = nil
+    post = []
     @posts.each do |key, value|
       if params.all? do |param_key, param_value|
           case param_key
@@ -48,8 +48,8 @@ class PostRepository
             value.send(param_key) == param_value
           end
         end
-        post = value
-        break
+        post << value
+        value.decrement_views if value.instance_of?(AdvancedPost)
       end
     end
 

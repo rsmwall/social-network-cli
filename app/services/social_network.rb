@@ -84,7 +84,7 @@ class SocialNetwork
     @post_repo.posts.each do |_, post|
       if post.instance_of?(AdvancedPost) && post.has_hashtag?(hashtag) && post.remaining_views > 0
           posts << post
-          post.decrement_views
+          decrement_views(post.id)
       end
     end
 

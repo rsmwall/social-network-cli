@@ -123,8 +123,8 @@ class App
   def search_profile(user)
     result = @social_network.search_profile(user, 1)
 
-    if result
-      result.each do |_, profile| 
+    if !result.empty?
+      result.each do |profile| 
         puts "\nUSER > @#{profile.user}\nE-MAIL > #{profile.email}"
         puts "-" * 40
       end
@@ -170,7 +170,7 @@ class App
 
   def print_posts(posts)
     posts.each do |post|
-      post_print = "\n@#{post.profile.user}\n#{post.text}\n#{post.date}"
+      post_print = "\nid:#{post.id} @#{post.profile.user}\n#{post.text}\n#{post.date}"
       post_print << "\n\n" + post.hashtags.map { |hashtag| "##{hashtag}" }.join(" ") if post.instance_of?(AdvancedPost)
       puts "#{post_print}\n\n▲ #{post.likes}  ▼ #{post.dislikes}"
       puts "-" * 40
@@ -179,10 +179,19 @@ class App
     enter_key
   end
 
+  def search_post(text)
+    result = @social_network.search_post(text: text)
+
+    print_posts(result) if !result.empty?
+
+    puts "\nNo post found."
+    enter_key
+  end
+
   def search_hashtag(hashtag)
     result = @social_network.show_post_by_hashtag(hashtag)
 
-    print_posts(result) if result
+    print_posts(result) if !result.empty?
       
     puts "\nNo post found with this hashtag."
     enter_key
