@@ -26,15 +26,12 @@ class App
       print "\nEnter an option\n> "
       option = gets.chomp.to_i
 
-      if option.zero?
+      case option
+      when 0
         @social_network.save_data
-        puts "\nExiting..."
-        break
-      else
-        case option
-        when 1 then login
-        when 2 then signup
-        end
+        abort("\nExiting...")
+      when 1 then login
+      when 2 then signup
       end
     end
   end
