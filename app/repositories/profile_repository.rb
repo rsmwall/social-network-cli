@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'json'
+require 'fileutils'
 require_relative '../models/profile'
 
 # class Profile Repository
@@ -41,9 +43,10 @@ class ProfileRepository
 
   # persistence
 
-  def save(file_path)
-    data @profiles.value.map(&:to_h)
-    File.write(file_path, JSON.pretty_generate(data))
+  def save
+    data = @profiles.map { |_, value| value.to_h }
+    File.new('profiles.json', 'a')
+    File.write('profiles.json', JSON.pretty_generate(data))
   end
 
   def load(file_path)
