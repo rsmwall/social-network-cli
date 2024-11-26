@@ -13,8 +13,8 @@ class Authentication
   end
 
   def login(user, password)
-    profile = @profile_repo.search_to_add(user)
-    if profile && BCrypt::Password.new(profile[:password]) == password
+    profile = @profile_repo.search_to_add(user: user)
+    if profile && BCrypt::Password.new(profile.password) == password
       @current_user = profile
       puts "\nLogin successful! Welcome, #{profile.user}."
       sleep(2)

@@ -22,8 +22,8 @@ class App
     loop do
       system('clear')
       puts "\n❖ RafaBook\n\n"
-      print "1. Login   2. Sign-Up\n0. Exit"
-      print "Enter an option\n> "
+      print "1. Login   2. Sign-Up\n0. Exit\n"
+      print "\nEnter an option\n> "
       option = gets.chomp.to_i
 
       break if option.zero?
@@ -40,10 +40,10 @@ class App
 
   def login
     system('clear')
-    puts "\n❖ Login\n\n"
-    print "Username\n> "
+    puts "\n❖ Login\n"
+    print "\nUsername\n> "
     user = gets.chomp
-    print "Password\n> "
+    print "\nPassword\n> "
     password = gets.chomp
 
     menu if @auth_service.login(user, password)
@@ -88,8 +88,9 @@ class App
 
   def search
     system('clear')
-    puts "\n❖ Search\n\n"
-    print "\nType something starting with: @ to search for a profile,\n# for a hashtag or just the text to search posts\n> "
+    puts "\n❖ Search\n"
+    print "\nEnter your search query:\n- Start with '@' to search for a profile.\n- Start with '#' to search for a hashtag.\n- Type plain text to search for posts.\n> "
+
     term = gets.chomp
 
     search_profile(term[1..-1]) if term.start_with?('@')
@@ -101,7 +102,7 @@ class App
 
   def signup
     system('clear')
-    puts "\n❖ Sign-Up\n\n"
+    puts "\n❖ Sign-Up\n"
     print "\nUsername\n> "
     user = gets.chomp
     print "\nE-mail\n> "
@@ -109,8 +110,8 @@ class App
     print "\nPassword\n> "
     password = gets.chomp
 
-    hashed_password = BCrypt::Password.create(password)
-    success = @social_network.add_profile(user: user, email: email, password: hashed_password)
+    success = @social_network.add_profile(
+      user: user, email: email, password: BCrypt::Password.create(password))
     puts success ? "\n\nProfile added successfully!" : "\n\nError adding profile!"
     
     puts "\nPress Enter to return to the menu..."
@@ -137,7 +138,7 @@ class App
 
   def add_post
     system('clear')
-    puts "\n❖ Add Post\n\n"
+    puts "\n❖ Add Post\n"
     print "\nEnter Text\n> "
     text = gets.chomp
     

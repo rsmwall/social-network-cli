@@ -11,7 +11,7 @@ class Profile
     @id = params[:id]
     @user = params[:user]
     @email = params[:email]
-    @password = params[:email]
+    @password = params[:password]
     @posts = []
   end
 
