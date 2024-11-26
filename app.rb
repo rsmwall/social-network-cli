@@ -26,16 +26,17 @@ class App
       print "\nEnter an option\n> "
       option = gets.chomp.to_i
 
-      break if option.zero?
-
-      case option
-      when 1 then login
-      when 2 then signup
+      if option.zero?
+        @social_network.save_data
+        puts "\nExiting..."
+        break
+      else
+        case option
+        when 1 then login
+        when 2 then signup
+        end
       end
     end
-
-    @social_network.save_data
-    puts "\nExiting..."
   end
 
   def login
@@ -51,7 +52,7 @@ class App
   end
 
   def logout
-    login if @auth_service.logout
+    login_menu if @auth_service.logout
     menu
   end
 

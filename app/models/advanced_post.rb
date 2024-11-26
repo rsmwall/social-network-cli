@@ -33,14 +33,13 @@ class AdvancedPost < Post
 
   def self.from_h(hash, profile)
     AdvancedPost.new(
-      id: hash['id'],
-      text: hash['text'],
-      likes: hash['likes'],
+      {id: hash['id'], 
+      text: hash['text'], 
+      likes: hash['likes'], 
       dislikes: hash['dislikes'],
-      date: hash['date'],
-      profile: profile,
-      hashtags: hash['hashtags'],
-      remaining_views: hash['remaining_views']
-    )
+      date: hash['date'], 
+      profile: profile}, 
+      hash['hashtags'], 
+      hash['remaining_views'])
   end
 end

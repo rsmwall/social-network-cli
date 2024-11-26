@@ -45,14 +45,15 @@ class ProfileRepository
 
   def save
     data = @profiles.map { |_, value| value.to_h }
-    File.new('profiles.json', 'a')
-    File.write('profiles.json', JSON.pretty_generate(data))
+    Dir.mkdir('app/data') unless Dir.exist?('app/data')
+    File.new('app/data/profiles.json', 'a')
+    File.write('app/data/profiles.json', JSON.pretty_generate(data))
   end
 
-  def load(file_path)
-    return unless File.exist?(file_path)
+  def load
+    return unless File.exist?('app/data/profiles.json')
 
-    data = JSON.parse(File.read(file_path))
+    data = JSON.parse(File.read('app/data/profiles.json'))
     data.each do |profile_hash|
       profile = Profile.from_h(profile_hash)
       @profiles[profile.id] = profile

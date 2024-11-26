@@ -94,16 +94,16 @@ class SocialNetwork
   # persistence methods
 
   def save_data
-    @profile_repo.save('../data/profiles.json')
-    @posts_repo.save('../data/posts.json')
+    @profile_repo.save
+    @post_repo.save
   end
 
   def load_data
-    @profile_repo.load('../data/profiles.json')
+    @profile_repo.load
 
     profiles = @profile_repo.profiles
     profiles_hash = profiles.transform_keys(&:to_i)
 
-    @post_repo.load('../data/posts.json', profiles_hash)
+    @post_repo.load(profiles_hash)
   end
 end

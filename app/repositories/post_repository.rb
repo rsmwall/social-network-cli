@@ -27,7 +27,7 @@ class PostRepository
 
     @next_id += 1
     @posts[post.id] = post
-    @post.profile.add(post.id)
+    post.profile.add(post.id)
   end
 
   def search(params)
@@ -58,15 +58,17 @@ class PostRepository
 
   # persistence
 
-  def save(file_path)
-    data = @posts.values.map(&:to_h)
-    File.write(file_path, JSON.pretty_generate(data))
+  def save
+    data = @posts.map { |_, value| value.to_h }
+    Dir.mkdir('app/data') unless Dir.exist?('app/data')
+    File.new('app/data/posts.json', 'a')
+    File.write('app/data/posts.json', JSON.pretty_generate(data))
   end
 
-  def load(file_path, profiles)
-    return unless File.exist?(file_path)
+  def load(profiles)
+    return unless File.exist?('app/data/posts.json')
 
-    data = JSON.parse(File.read(file_path))
+    data = JSON.parse(File.read('app/data/posts.json'))
     data.each do |post_hash|
       profile = profiles[post_hash['profile_id']]
       next unless profile
