@@ -5,7 +5,7 @@ require_relative '../repositories/post_repository'
 
 # class Social Network
 class SocialNetwork
-  attr_reader :profile_repo
+  attr_reader :profile_repo, :post_repo
 
   def initialize
     @profile_repo = ProfileRepository.new

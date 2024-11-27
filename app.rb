@@ -11,8 +11,10 @@ class App
     @social_network.load_data
     @auth_service = Authentication.new(@social_network.profile_repo)
     @menu = <<~MENU
-    1. Search  2. Add Post         
-    0. Logout
+    01. Feed
+    02. Search
+    03. Add Post
+    00. Exit
     MENU
   end
 
@@ -73,8 +75,9 @@ class App
 
   def menu_action(option)
     case option
-    when 1 then search
-    when 2 then add_post
+    when 1 then feed
+    when 2 then search
+    when 3 then add_post
     end
   end
 
@@ -167,12 +170,19 @@ class App
 
   def print_posts(posts)
     posts.each do |post|
-      post_print = "\nid:#{post.id} @#{post.profile.user}\n#{post.text}\n#{post.date}"
-      post_print << "\n\n" + post.hashtags.map { |hashtag| "##{hashtag}" }.join(" ") if post.instance_of?(AdvancedPost)
+      post_print = "\nid:#{post.id} \e[1m@#{post.profile.user}\e[0m\n#{post.text}\n#{post.date}"
+      post_print << "\n\n" + post.hashtags.map { |hashtag| "\e[34m##{hashtag}\e[0m" }.join(" ") if post.instance_of?(AdvancedPost)
       puts "#{post_print}\n\n▲ #{post.likes}  ▼ #{post.dislikes}"
       puts "-" * 40
     end
 
+    enter_key
+  end
+
+  def feed
+    posts = @social_network.post_repo.posts.values
+    puts "There are no posts yet, be the first :)" unless !posts.empty?
+    print_posts(posts)
     enter_key
   end
 
