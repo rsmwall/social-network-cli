@@ -5,11 +5,10 @@ require 'tty-prompt'
 require_relative './app/services/social_network'
 require_relative './app/services/authentication'
 
-prompt = TTY::Prompt.new
-
 # class App
 class App
   def initialize
+    @prompt = TTY::Prompt.new
     @social_network = SocialNetwork.new
     @social_network.load_data
     @auth_service = Authentication.new(@social_network.profile_repo)
@@ -22,22 +21,18 @@ class App
   end
 
   # auth methods
-  
-  def login_menu
-    loop do
-      system('clear')
-      puts "\n❖ RafaBook\n\n"
-      print "1. Login   2. Sign-Up\n0. Exit\n"
-      print "\nEnter an option\n> "
-      option = gets.chomp.to_i
 
-      case option
-      when 0
+  def login_menu
+    Gem.win_platform? ? system('cls') : system('clear')
+
+    @prompt.select('') do |it|
+      it.choice 'Login', -> { login }
+      it.choice 'Sign-Up', -> { signup }
+      it.choice 'Exit', lambda {
         @social_network.save_data
-        abort("\nExiting...")
-      when 1 then login
-      when 2 then signup
-      end
+        @prompt.ok('Exiting...')
+        abort
+      }
     end
   end
 
