@@ -12,12 +12,6 @@ class App
     @social_network = SocialNetwork.new
     @social_network.load_data
     @auth_service = Authentication.new(@social_network.profile_repo)
-    @menu = <<~MENU
-    01. Feed
-    02. Search
-    03. Add Post
-    00. Exit
-    MENU
   end
 
   # auth methods
@@ -30,6 +24,7 @@ class App
       it.choice 'Sign-Up', -> { signup }
       it.choice 'Exit', lambda {
         @social_network.save_data
+        Gem.win_platform? ? system('cls') : system('clear')
         @prompt.ok('Exiting...')
         abort
       }
@@ -92,26 +87,16 @@ class App
   # general methods
 
   def menu
-    loop do
-      system('clear')
-      puts "\n❖ RafaBook\n\n"
-      puts @menu
-      print "\nEnter an option\n> "
-      option = gets.chomp.to_i
+    Gem.win_platform? ? system('cls') : system('clear')
 
-      break if option.zero?
-
-      menu_action(option)
-    end
-
-    logout
-  end
-
-  def menu_action(option)
-    case option
-    when 1 then feed
-    when 2 then search
-    when 3 then add_post
+    puts "\nWelcome, #{@auth_service.current_user.name}!\n\n"
+    
+    @prompt.select('') do |it|
+      it.choice 'Feed', -> { feed }
+      it.choice 'Search', -> { search }
+      it.choice 'Add Post', -> { add_post }
+      it.choice 'Profile', -> { profile }
+      it.choice 'Logout', -> { logout }
     end
   end
 
@@ -134,6 +119,19 @@ class App
   end
 
   # profile methods
+
+  def profile
+    Gem.win_platform? ? system('cls') : system('clear')
+    profile = @auth_service.current_user
+
+    puts "\e[1m#{profile.name}\e[0m"
+    puts "@#{profile.user}\n\n"
+    puts "0 followers  0 following  #{profile.posts.length} posts\n\n"
+    puts profile.desc
+
+    @prompt.keypress("\nPress Enter to return to menu...", keys: [:return])
+    menu
+  end
 
   def search_profile(user)
     result = @social_network.search_profile(user, 1)
