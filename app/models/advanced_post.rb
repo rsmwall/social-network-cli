@@ -16,12 +16,12 @@ class AdvancedPost < Post
     @hashtags << hashtag
   end
 
-  def has_hashtag?(hashtag)
+  def hashtag?(hashtag)
     @hashtags.include?(hashtag)
   end
 
   def decrement_views
-    @remaining_views -= 1 if @remaining_views > 0
+    @remaining_views -= 1 if @remaining_views.positive?
   end
 
   def to_h
@@ -33,13 +33,14 @@ class AdvancedPost < Post
 
   def self.from_h(hash, profile)
     AdvancedPost.new(
-      {id: hash['id'], 
-      text: hash['text'], 
-      likes: hash['likes'], 
-      dislikes: hash['dislikes'],
-      date: hash['date'], 
-      profile: profile}, 
-      hash['hashtags'], 
-      hash['remaining_views'])
+      { id: hash['id'],
+        text: hash['text'],
+        likes: hash['likes'],
+        dislikes: hash['dislikes'],
+        date: hash['date'],
+        profile: profile },
+      hash['hashtags'],
+      hash['remaining_views']
+    )
   end
 end

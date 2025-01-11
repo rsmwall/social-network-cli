@@ -41,7 +41,7 @@ class PostRepository
             value.text.include?(param_value)
           when :hashtags
             if value.instance_of?(AdvancedPost)
-              value.has_hashtag?(param_value)
+              value.hashtag?(param_value)
               value.decrement_views
             end
           else

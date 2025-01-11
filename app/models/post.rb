@@ -21,7 +21,7 @@ class Post
     @dislikes += 1
   end
 
-  def is_popular?
+  def popular?
     @likes >= (@dislikes * 1.5)
   end
 

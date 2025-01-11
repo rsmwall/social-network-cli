@@ -39,10 +39,10 @@ class Profile
 
   def self.from_h(hash)
     Profile.new(
-      id: hash['id'], 
-      name: hash['name'], 
-      user: hash['user'], 
-      email: hash['email'], 
+      id: hash['id'],
+      name: hash['name'],
+      user: hash['user'],
+      email: hash['email'],
       password: hash['password'],
       desc: hash['desc']
     )

@@ -82,7 +82,7 @@ class SocialNetwork
   def show_post_by_hashtag(hashtag)
     posts = []
     @post_repo.posts.each do |_, post|
-      if post.instance_of?(AdvancedPost) && post.has_hashtag?(hashtag) && post.remaining_views > 0
+      if post.instance_of?(AdvancedPost) && post.hashtag?(hashtag) && post.remaining_views > 0
           posts << post
           decrement_views(post.id)
       end
