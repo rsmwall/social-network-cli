@@ -1,7 +1,7 @@
 [
   {
     "id": 1,
-    "name": "",
+    "name": "Rafael Silva",
     "user": "rsmwall",
     "email": "rafael@email.com",
     "password": "$2a$12$7cTJZ7q1pxNjGowfTYaMzeql1aEbbLZqFEb9bi4yk68QhqY2cccza",
@@ -9,7 +9,7 @@
   },
   {
     "id": 2,
-    "name": "",
+    "name": "Ruby Lang",
     "user": "rblang",
     "email": "rblang@email.com",
     "password": "$2a$12$oHKlOCUHgyYCu3EYnPIq/.2KX/GvuFb5jk6HIoW.sPHahQJQRsxPa",
@@ -17,7 +17,7 @@
   },
   {
     "id": 3,
-    "name": "",
+    "name": "Social",
     "user": "social",
     "email": "social@email.com",
     "password": "$2a$12$MKakf.GTWQsUVVqage3EfOovBDcOw5bDeqIhhFO8bKZpLfL1C8I3O",

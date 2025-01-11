@@ -2,6 +2,7 @@
 
 require 'bcrypt'
 require 'tty-prompt'
+require 'time'
 require_relative './app/services/social_network'
 require_relative './app/services/authentication'
 
@@ -181,22 +182,47 @@ class App
     enter_key
   end
 
-  def print_posts(posts)
-    posts.each do |post|
-      post_print = "\nid:#{post.id} \e[1m@#{post.profile.user}\e[0m\n#{post.text}\n#{post.date}"
-      post_print << "\n\n" + post.hashtags.map { |hashtag| "\e[34m##{hashtag}\e[0m" }.join(" ") if post.instance_of?(AdvancedPost)
-      puts "#{post_print}\n\n▲ #{post.likes}  ▼ #{post.dislikes}"
-      puts "-" * 40
+  def post_preview(post)
+    time = Time.parse(post.date)
+    formatted_time = time.strftime('%b %d, %Y, %-I:%M %p')
+    "#{post.profile.name} @#{post.profile.user} - #{formatted_time} - ▲ #{post.likes}  ▼ #{post.dislikes}"
+  end
+  
+  def format_post(post)
+    time = Time.parse(post.date)
+    formatted_time = time.strftime('%b %d, %Y, %-I:%M %p')
+    
+    post_print = "\n\e[1m#{post.profile.name}\e[0m @#{post.profile.user}\n\n#{post.text}"
+    if post.instance_of?(AdvancedPost)
+      post_print << "\n#{post.hashtags.map { |hashtag| "\e[34m##{hashtag}\e[0m" }.join(" ")}"
     end
+    post_print << "\n\n#{formatted_time}\n\n▲ #{post.likes}  ▼ #{post.dislikes}\n\n"
+    post_print
+  end
+  
+  def print_posts(posts)
+    choices = posts.map { |post| { name: post_preview(post), value: post } }
+    choices << 'Exit'
+    selected_post = @prompt.select('Feed', choices)
+    menu if selected_post == 'Exit'
+    
+    Gem.win_platform? ? system('cls') : system('clear')
+    puts format_post(selected_post)
 
-    enter_key
+    @prompt.select('') do |it|
+      it.choice 'Like', -> { selected_post.like }
+      it.choice 'Dislike', -> { selected_post.dislike }
+      it.choice 'Exit', -> { feed }
+    end
   end
 
   def feed
+    Gem.win_platform? ? system('cls') : system('clear')
     posts = @social_network.post_repo.posts.values
     puts "There are no posts yet, be the first :)" unless !posts.empty?
     print_posts(posts)
-    enter_key
+    @prompt.keypress("\nPress Enter to return to menu...", keys: [:return])
+    feed
   end
 
   def search_post(text)
