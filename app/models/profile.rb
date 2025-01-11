@@ -9,11 +9,11 @@ class Profile
 
   def initialize(params)
     @id = params[:id]
-    @name = ''
+    @name = params[:name]
     @user = params[:user]
     @email = params[:email]
     @password = params[:password]
-    @desc = ''
+    @desc = params[:desc]
     @posts = []
   end
 

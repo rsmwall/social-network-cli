@@ -37,15 +37,51 @@ class App
   end
 
   def login
-    system('clear')
-    puts "\n❖ Login\n"
-    print "\nUsername\n> "
-    user = gets.chomp
-    print "\nPassword\n> "
-    password = gets.chomp
+    Gem.win_platform? ? system('cls') : system('clear')
 
-    menu if @auth_service.login(user, password)
+    login_info = @prompt.collect do
+      key(:user).ask('User:')
+      key(:password).mask('Password:')
+    end
+
+    menu if @auth_service.login(login_info[:user], login_info[:password])
     login
+  end
+
+  def customization(user)
+    profile = @social_network.search_profile(user, 2)
+
+    name = @prompt.ask('Name:', default: user)
+    desc = @prompt.multiline('Description:', default: "This is a description.")
+
+    profile.customization(name, desc)
+  end
+
+  def signup
+    Gem.win_platform? ? system('cls') : system('clear')
+
+    user = @prompt.ask('User:', required: true)
+    email = @prompt.ask('Email:', required: true) do |q|
+      q.validate(/\A\w+@\w+\.\w+\Z/, 'Invalid email address!')
+    end
+
+    password = @prompt.ask('Password:', required: true)
+    @prompt.ask('Repeat Password:', required: true) do |q| 
+      q.validate -> (input) { input == password }
+      q.messages[:valid?] = 'Passwords do not match!'
+    end
+
+    if @social_network.add_profile(
+        user: user, email: email, password: BCrypt::Password.create(password)
+      )
+      @prompt.ok("\nProfile added successfully!\n")
+      customization(user)
+    else
+      @prompt.error("\nUser or email is already in use!")
+    end
+    
+    @prompt.keypress("\nPress Enter to return to menu...", keys: [:return])
+    login_menu
   end
 
   def logout
@@ -98,25 +134,6 @@ class App
   end
 
   # profile methods
-
-  def signup
-    system('clear')
-    puts "\n❖ Sign-Up\n"
-    print "\nUsername\n> "
-    user = gets.chomp
-    print "\nE-mail\n> "
-    email = gets.chomp
-    print "\nPassword\n> "
-    password = gets.chomp
-
-    success = @social_network.add_profile(
-      user: user, email: email, password: BCrypt::Password.create(password))
-    puts success ? "\n\nProfile added successfully!" : "\n\nError adding profile!"
-    
-    puts "\nPress Enter to return to the menu..."
-    key = gets
-    login_menu if key == "\n"
-  end
 
   def search_profile(user)
     result = @social_network.search_profile(user, 1)
