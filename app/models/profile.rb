@@ -5,14 +5,21 @@ require_relative 'post'
 # class Profile
 class Profile
   attr_accessor :posts
-  attr_reader :id, :user, :email, :password
+  attr_reader :id, :name, :user, :email, :password, :desc
 
   def initialize(params)
     @id = params[:id]
+    @name = ''
     @user = params[:user]
     @email = params[:email]
     @password = params[:password]
+    @desc = ''
     @posts = []
+  end
+
+  def customization(name, desc)
+    @name = name
+    @desc = desc
   end
 
   def add(post_id)
@@ -22,15 +29,22 @@ class Profile
   def to_h
     {
       id: @id,
+      name: @name,
       user: @user,
       email: @email,
-      password: @password
+      password: @password,
+      desc: @desc
     }
   end
 
   def self.from_h(hash)
     Profile.new(
-      id: hash['id'], user: hash['user'], email: hash['email'], password: hash['password']
+      id: hash['id'], 
+      name: hash['name'], 
+      user: hash['user'], 
+      email: hash['email'], 
+      password: hash['password'],
+      desc: hash['desc']
     )
   end
 end

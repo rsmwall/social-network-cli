@@ -1,20 +1,34 @@
 [
   {
     "id": 1,
+    "name": "",
     "user": "rsmwall",
     "email": "rafael@email.com",
-    "password": "$2a$12$7cTJZ7q1pxNjGowfTYaMzeql1aEbbLZqFEb9bi4yk68QhqY2cccza"
+    "password": "$2a$12$7cTJZ7q1pxNjGowfTYaMzeql1aEbbLZqFEb9bi4yk68QhqY2cccza",
+    "desc": ""
   },
   {
     "id": 2,
+    "name": "",
     "user": "rblang",
     "email": "rblang@email.com",
-    "password": "$2a$12$oHKlOCUHgyYCu3EYnPIq/.2KX/GvuFb5jk6HIoW.sPHahQJQRsxPa"
+    "password": "$2a$12$oHKlOCUHgyYCu3EYnPIq/.2KX/GvuFb5jk6HIoW.sPHahQJQRsxPa",
+    "desc": ""
   },
   {
     "id": 3,
+    "name": "",
     "user": "social",
     "email": "social@email.com",
-    "password": "$2a$12$MKakf.GTWQsUVVqage3EfOovBDcOw5bDeqIhhFO8bKZpLfL1C8I3O"
+    "password": "$2a$12$MKakf.GTWQsUVVqage3EfOovBDcOw5bDeqIhhFO8bKZpLfL1C8I3O",
+    "desc": ""
+  },
+  {
+    "id": 4,
+    "name": "Administrator",
+    "user": "admin",
+    "email": "admin@admin.com",
+    "password": "$2a$12$vG8N8Gf3y41xAdyEujivp.yFlTjuR6cpHRonDdAu//BWc4IYa6ZYa",
+    "desc": "This is a description."
   }
 ]
