@@ -7,7 +7,7 @@ require_relative '../models/profile'
 # class Profile Repository
 class ProfileRepository
   attr_reader :profiles
-  
+
   def initialize
     @profiles = {}
     @next_id = 1
@@ -15,7 +15,7 @@ class ProfileRepository
 
   def add(params)
     profile = Profile.new(
-      id: @next_id, name: params[:name], user: params[:user], 
+      id: @next_id, name: params[:name], user: params[:user],
       email: params[:email], password: params[:password], desc: params[:desc]
     )
     @next_id += 1
@@ -26,7 +26,7 @@ class ProfileRepository
     params = params.reject { |_, value| value.nil? }
 
     profile = nil
-    @profiles.each do |_, value|
+    @profiles.each_value do |value|
       if params[:user] == value.user || params[:email] == value.email
         profile = value
         break
@@ -39,7 +39,7 @@ class ProfileRepository
   def search(user)
     profiles_result = []
 
-    @profiles.each do |_, profile|
+    @profiles.each_value do |profile|
       profiles_result << profile if profile.user.include?(user)
     end
 
