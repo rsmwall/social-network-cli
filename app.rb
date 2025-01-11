@@ -101,11 +101,7 @@ class App
     end
   end
 
-  def enter_key
-    puts "\nPress Enter to return to the menu..."
-    key = gets
-    menu if key == "\n"
-  end
+  # TODO: update search
 
   def search
     system('clear')
@@ -120,6 +116,8 @@ class App
   end
 
   # profile methods
+
+  # TODO: open profile to any users
 
   def profile
     Gem.win_platform? ? system('cls') : system('clear')
