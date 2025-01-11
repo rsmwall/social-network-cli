@@ -1,8 +1,11 @@
 # frozen_string_literal: true
 
 require 'bcrypt'
+require 'tty-prompt'
 require_relative './app/services/social_network'
 require_relative './app/services/authentication'
+
+prompt = TTY::Prompt.new
 
 # class App
 class App
