@@ -23,8 +23,8 @@ class ProfileRepository
     params = params.reject { |_, value| value.nil? }
 
     profile = nil
-    @profiles.each do |key, value|
-      if params.all? { |param_key, param_value| value.send(param_key) == param_value }
+    @profiles.each do |_, value|
+      if params[:user] == value.user || params[:email] == value.email
         profile = value
         break
       end

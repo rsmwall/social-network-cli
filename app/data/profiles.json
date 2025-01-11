@@ -10,5 +10,11 @@
     "user": "rblang",
     "email": "rblang@email.com",
     "password": "$2a$12$oHKlOCUHgyYCu3EYnPIq/.2KX/GvuFb5jk6HIoW.sPHahQJQRsxPa"
+  },
+  {
+    "id": 3,
+    "user": "social",
+    "email": "social@email.com",
+    "password": "$2a$12$MKakf.GTWQsUVVqage3EfOovBDcOw5bDeqIhhFO8bKZpLfL1C8I3O"
   }
 ]
