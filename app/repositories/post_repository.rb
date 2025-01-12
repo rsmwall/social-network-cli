@@ -95,7 +95,7 @@ class PostRepository
       next unless profile
 
       post = create_loaded(post_hash, profile)
-      save_loaded(post)
+      save_loaded(post, profile)
     end
   end
 
@@ -109,7 +109,7 @@ class PostRepository
     end
   end
 
-  def save_loaded(post)
+  def save_loaded(post, profile)
     @posts[post.id] = post
     profile.add(post)
     @next_id = [@next_id, post.id + 1].max
