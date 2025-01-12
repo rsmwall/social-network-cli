@@ -8,22 +8,22 @@ require_relative '../controllers/profile_controller'
 
 # class Social Network
 class SocialNetwork
-  attr_reader :profile_repo, :post_repo
+  attr_reader :profile_repository, :post_repository
 
   def initialize
-    @profile_repo = ProfileRepository.new
+    @profile_repository = ProfileRepository.new
     @profile_controller = ProfileController.new
-    @post_repo = PostRepository.new
+    @post_repository = PostRepository.new
   end
 
   # profile methods
 
   def add_profile(params)
-    @profile_controller.add(params)
+    @profile_controller.add(params, @profile_repository)
   end
 
   def search_profile(user, reason)
-    @profile_controller.search(user, reason, @profile_repo)
+    @profile_controller.search(user, reason, @profile_repository)
   end
 
   # post methods
@@ -31,12 +31,12 @@ class SocialNetwork
   def add_post(params)
     return false if params.any? { |_, value| value.nil? }
     
-    @post_repo.add(params)
+    @post_repository.add(params)
     true
   end
 
   def search_post(params)
-    @post_repo.search(params)
+    @post_repository.search(params)
   end
 
   def like(id)
@@ -54,9 +54,11 @@ class SocialNetwork
     post.decrement_views if !post.nil? && post.instance_of?(AdvancedPost)
   end
 
+  # feed methods
+
   def show_post_profile(user)
     profile = search_profile(user, 2)
-    all_posts = @post_repo.posts
+    all_posts = @post_repository.posts
     profile_posts = []
     all_posts.each { |_, value| profile_posts << value if value.profile.id == profile.id }
     
@@ -77,7 +79,7 @@ class SocialNetwork
 
   def show_post_by_hashtag(hashtag)
     posts = []
-    @post_repo.posts.each do |_, post|
+    @post_repository.posts.each do |_, post|
       if post.instance_of?(AdvancedPost) && post.hashtag?(hashtag) && post.remaining_views > 0
           posts << post
           decrement_views(post.id)
@@ -90,16 +92,16 @@ class SocialNetwork
   # persistence methods
 
   def save_data
-    @profile_repo.save
-    @post_repo.save
+    @profile_repository.save
+    @post_repository.save
   end
 
   def load_data
-    @profile_repo.load
+    @profile_repository.load
 
-    profiles = @profile_repo.profiles
+    profiles = @profile_repository.profiles
     profiles_hash = profiles.transform_keys(&:to_i)
 
-    @post_repo.load(profiles_hash)
+    @post_repository.load(profiles_hash)
   end
 end
