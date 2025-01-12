@@ -6,6 +6,7 @@ require 'tty-prompt'
 require 'time'
 require_relative './app/services/social_network'
 require_relative './app/services/authentication'
+require_relative './app/views/authentication_view'
 
 # TODO: separate App class
 
@@ -16,41 +17,22 @@ class App
     @social_network = SocialNetwork.new
     @social_network.load_data
     @auth_service = Authentication.new(@social_network.profile_repository)
+
+    @auth_view = AuthenticationView.new(@social_network, @auth_service, @prompt, self)
   end
 
   # auth methods
 
-  def login_menu
-    Gem.win_platform? ? system('cls') : system('clear')
-
-    @prompt.select('') do |it|
-      it.choice 'Login', -> { login }
-      it.choice 'Sign-Up', -> { signup }
-      it.choice 'Exit', lambda {
-        @social_network.save_data
-        Gem.win_platform? ? system('cls') : system('clear')
-        @prompt.ok('Exiting...')
-        abort
-      }
-    end
+  def run
+    @auth_view.initial_menu
   end
 
-  def login
+  def exit
+    @social_network.save_data
     Gem.win_platform? ? system('cls') : system('clear')
-
-    login_info = @prompt.collect do
-      key(:user).ask('User:')
-      key(:password).mask('Password:')
-    end
-
-    if @auth_service.login(login_info[:user], login_info[:password])
-      @prompt.ok('Login successful!')
-      sleep(2)
-      menu
-    end
-    @prompt.error('Invalid username or password!')
+    @prompt.ok('Exiting...')
     sleep(2)
-    login
+    abort
   end
 
   def customization(user)
@@ -62,47 +44,9 @@ class App
     profile.customization(name, desc)
   end
 
-  def signup
-    Gem.win_platform? ? system('cls') : system('clear')
-
-    user = @prompt.ask('User:', required: true)
-    email = @prompt.ask('Email:', required: true) do |q|
-      q.validate(/\A\w+@\w+\.\w+\Z/, 'Invalid email address!')
-    end
-
-    password = @prompt.ask('Password:', required: true)
-    @prompt.ask('Repeat Password:', required: true) do |q|
-      q.validate ->(input) { input == password }
-      q.messages[:valid?] = 'Passwords do not match!'
-    end
-
-    if @social_network.add_profile(
-      user: user, email: email, password: BCrypt::Password.create(password)
-    )
-      @prompt.ok("\nProfile added successfully!\n")
-      customization(user)
-    else
-      @prompt.error("\nUser or email is already in use!")
-    end
-
-    @prompt.keypress("\nPress Enter to return to menu...", keys: [:return])
-    login_menu
-  end
-
-  def logout
-    if @auth_service.logout
-      puts "\nLogout successful!"
-      sleep(2)
-      login_menu
-    end
-    puts "\nNo user logged in!"
-    sleep(2)
-    menu
-  end
-
   # general methods
 
-  def menu
+  def main_menu
     Gem.win_platform? ? system('cls') : system('clear')
 
     puts "\nWelcome, #{@auth_service.current_user.name}!\n\n"
@@ -112,7 +56,7 @@ class App
       it.choice 'Search', -> { search }
       it.choice 'Add Post', -> { add_post }
       it.choice 'Profile', -> { profile(@auth_service.current_user) }
-      it.choice 'Logout', -> { logout }
+      it.choice 'Logout', -> { @auth_view.logout }
     end
   end
 
@@ -255,5 +199,4 @@ class App
   end
 end
 
-app = App.new
-app.login_menu
+App.new.run
