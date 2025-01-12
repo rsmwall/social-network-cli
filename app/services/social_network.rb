@@ -6,8 +6,6 @@ require_relative '../controllers/profile_controller'
 require_relative '../controllers/post_controller'
 require_relative '../controllers/feed_controller'
 
-# TODO: rupocop conventions
-
 # class Social Network
 class SocialNetwork
   attr_reader :profile_repository, :post_repository
@@ -58,7 +56,7 @@ class SocialNetwork
     profile = search_profile(user, 2)
     all_posts = post_repository.posts
     profile_posts = []
-    all_posts.each { |_, value| profile_posts << value if value.profile.id == profile.id }
+    all_posts.each_value { |value| profile_posts << value if value.profile.id == profile.id }
     posts = []
     @feed_controller.post_profile(profile, profile_posts, posts)
   end
