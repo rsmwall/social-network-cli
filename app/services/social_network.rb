@@ -2,6 +2,9 @@
 
 require_relative '../repositories/profile_repository'
 require_relative '../repositories/post_repository'
+require_relative '../controllers/profile_controller'
+
+# TODO: rupocop conventions
 
 # class Social Network
 class SocialNetwork
@@ -9,25 +12,18 @@ class SocialNetwork
 
   def initialize
     @profile_repo = ProfileRepository.new
+    @profile_controller = ProfileController.new
     @post_repo = PostRepository.new
   end
 
   # profile methods
 
   def add_profile(params)
-    return false if params.any? { |_, value| value.nil? } ||
-      !@profile_repo.search_to_add(user: params[:user], email: params[:email]).nil?
-    
-    @profile_repo.add(params)
-    true
+    @profile_controller.add(params)
   end
 
   def search_profile(user, reason)
-    if reason == 1
-      @profile_repo.search(user)
-    elsif reason == 2
-      @profile_repo.search_to_add(user: user)
-    end
+    @profile_controller.search(user, reason, @profile_repo)
   end
 
   # post methods
