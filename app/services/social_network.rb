@@ -4,6 +4,7 @@ require_relative '../repositories/profile_repository'
 require_relative '../repositories/post_repository'
 require_relative '../controllers/profile_controller'
 require_relative '../controllers/post_controller'
+require_relative '../controllers/feed_controller'
 
 # TODO: rupocop conventions
 
@@ -16,6 +17,7 @@ class SocialNetwork
     @profile_controller = ProfileController.new
     @post_repository = PostRepository.new
     @post_controller = PostController.new
+    @feed_controller = FeedController.new
   end
 
   # profile methods
@@ -54,35 +56,15 @@ class SocialNetwork
 
   def show_post_profile(user)
     profile = search_profile(user, 2)
-    all_posts = @post_repository.posts
+    all_posts = post_repository.posts
     profile_posts = []
     all_posts.each { |_, value| profile_posts << value if value.profile.id == profile.id }
-    
     posts = []
-    if !profile.nil?
-      profile_posts.each do |post|
-        if !post.instance_of?(AdvancedPost)
-          posts << post
-        elsif post.remaining_views > 0
-          decrement_views(post.id)
-          posts << post
-        end
-      end
-    end
-
-    posts
+    @feed_controller.post_profile(profile, profile_posts, posts)
   end
 
   def show_post_by_hashtag(hashtag)
-    posts = []
-    @post_repository.posts.each do |_, post|
-      if post.instance_of?(AdvancedPost) && post.hashtag?(hashtag) && post.remaining_views > 0
-          posts << post
-          decrement_views(post.id)
-      end
-    end
-
-    posts
+    @feed_controller.post_by_hashtag(hashtag, @post_repository)
   end
 
   # persistence methods
