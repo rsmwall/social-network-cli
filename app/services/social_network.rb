@@ -3,6 +3,7 @@
 require_relative '../repositories/profile_repository'
 require_relative '../repositories/post_repository'
 require_relative '../controllers/profile_controller'
+require_relative '../controllers/post_controller'
 
 # TODO: rupocop conventions
 
@@ -14,6 +15,7 @@ class SocialNetwork
     @profile_repository = ProfileRepository.new
     @profile_controller = ProfileController.new
     @post_repository = PostRepository.new
+    @post_controller = PostController.new
   end
 
   # profile methods
@@ -29,10 +31,7 @@ class SocialNetwork
   # post methods
 
   def add_post(params)
-    return false if params.any? { |_, value| value.nil? }
-    
-    @post_repository.add(params)
-    true
+    @post_controller.add(params, @post_repository)
   end
 
   def search_post(params)
@@ -40,18 +39,15 @@ class SocialNetwork
   end
 
   def like(id)
-    post = search_post(id: id)
-    post.like if !post.nil?
+    @post_controller.like(id)
   end
 
   def dislike(id)
-    post = search_post(id: id)
-    post.dislike if !post.nil?
+    @post_controller.dislike(id)
   end
 
   def decrement_views(id)
-    post = search_post(id: id)
-    post.decrement_views if !post.nil? && post.instance_of?(AdvancedPost)
+    @post_controller.decrement_views(id)
   end
 
   # feed methods
