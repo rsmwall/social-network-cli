@@ -1,3 +1,4 @@
+#!/usr/bin/env ruby
 # frozen_string_literal: true
 
 require 'bcrypt'
@@ -6,13 +7,15 @@ require 'time'
 require_relative './app/services/social_network'
 require_relative './app/services/authentication'
 
+# TODO: separate App class
+
 # class App
 class App
   def initialize
     @prompt = TTY::Prompt.new
     @social_network = SocialNetwork.new
     @social_network.load_data
-    @auth_service = Authentication.new(@social_network.profile_repo)
+    @auth_service = Authentication.new(@social_network.profile_repository)
   end
 
   # auth methods
@@ -40,7 +43,13 @@ class App
       key(:password).mask('Password:')
     end
 
-    menu if @auth_service.login(login_info[:user], login_info[:password])
+    if @auth_service.login(login_info[:user], login_info[:password])
+      @prompt.ok('Login successful!')
+      sleep(2)
+      menu
+    end
+    @prompt.error('Invalid username or password!')
+    sleep(2)
     login
   end
 
@@ -48,7 +57,7 @@ class App
     profile = @social_network.search_profile(user, 2)
 
     name = @prompt.ask('Name:', default: user)
-    desc = @prompt.multiline('Description:', default: "This is a description.")
+    desc = @prompt.multiline('Description:', default: 'This is a description.')
 
     profile.customization(name, desc)
   end
@@ -62,26 +71,32 @@ class App
     end
 
     password = @prompt.ask('Password:', required: true)
-    @prompt.ask('Repeat Password:', required: true) do |q| 
-      q.validate -> (input) { input == password }
+    @prompt.ask('Repeat Password:', required: true) do |q|
+      q.validate ->(input) { input == password }
       q.messages[:valid?] = 'Passwords do not match!'
     end
 
     if @social_network.add_profile(
-        user: user, email: email, password: BCrypt::Password.create(password)
-      )
+      user: user, email: email, password: BCrypt::Password.create(password)
+    )
       @prompt.ok("\nProfile added successfully!\n")
       customization(user)
     else
       @prompt.error("\nUser or email is already in use!")
     end
-    
+
     @prompt.keypress("\nPress Enter to return to menu...", keys: [:return])
     login_menu
   end
 
   def logout
-    login_menu if @auth_service.logout
+    if @auth_service.logout
+      puts "\nLogout successful!"
+      sleep(2)
+      login_menu
+    end
+    puts "\nNo user logged in!"
+    sleep(2)
     menu
   end
 
@@ -91,12 +106,12 @@ class App
     Gem.win_platform? ? system('cls') : system('clear')
 
     puts "\nWelcome, #{@auth_service.current_user.name}!\n\n"
-    
+
     @prompt.select('') do |it|
       it.choice 'Feed', -> { feed }
       it.choice 'Search', -> { search }
       it.choice 'Add Post', -> { add_post }
-      it.choice 'Profile', -> { profile }
+      it.choice 'Profile', -> { profile(@auth_service.current_user) }
       it.choice 'Logout', -> { logout }
     end
   end
@@ -110,24 +125,20 @@ class App
 
     term = gets.chomp
 
-    search_profile(term[1..-1]) if term.start_with?('@')
-    search_hashtag(term[1..-1]) if term.start_with?('#')
+    search_profile(term[1..]) if term.start_with?('@')
+    search_hashtag(term[1..]) if term.start_with?('#')
     search_post(term)
   end
 
   # profile methods
 
-  # TODO: open profile to any users
-
-  def profile
+  def profile(profile)
     Gem.win_platform? ? system('cls') : system('clear')
-    profile = @auth_service.current_user
-
+    puts "\n❖ Profile\n"
     puts "\e[1m#{profile.name}\e[0m"
     puts "@#{profile.user}\n\n"
     puts "0 followers  0 following  #{profile.posts.length} posts\n\n"
     puts profile.desc
-
     @prompt.keypress("\nPress Enter to return to menu...", keys: [:return])
     menu
   end
@@ -136,9 +147,9 @@ class App
     result = @social_network.search_profile(user, 1)
 
     if !result.empty?
-      result.each do |profile| 
+      result.each do |profile|
         puts "\nUSER > @#{profile.user}\nE-MAIL > #{profile.email}"
-        puts "-" * 40
+        puts '-' * 40
       end
     else
       puts "\nNo profile found with the given criteria."
@@ -154,7 +165,7 @@ class App
     puts "\n❖ Add Post\n"
     print "\nEnter Text\n> "
     text = gets.chomp
-    
+
     success = nil
     loop do
       print "\nAdd hahstags (y/n): "
@@ -167,11 +178,13 @@ class App
 
         success = @social_network.add_post(
           text: text, likes: 0, dislikes: 0, date: Time.now, profile: @auth_service.current_user,
-          hashtags: hashtags, remaining_views: 100)
+          hashtags: hashtags, remaining_views: 100
+        )
         break
       elsif option == 'n'
         success = @social_network.add_post(
-          text: text, likes: 0, dislikes: 0, date: Time.now, profile: @auth_service.current_user)
+          text: text, likes: 0, dislikes: 0, date: Time.now, profile: @auth_service.current_user
+        )
         break
       end
     end
@@ -185,25 +198,25 @@ class App
     formatted_time = time.strftime('%b %d, %Y, %-I:%M %p')
     "#{post.profile.name} @#{post.profile.user} - #{formatted_time} - ▲ #{post.likes}  ▼ #{post.dislikes}"
   end
-  
+
   def format_post(post)
     time = Time.parse(post.date)
     formatted_time = time.strftime('%b %d, %Y, %-I:%M %p')
-    
+
     post_print = "\n\e[1m#{post.profile.name}\e[0m @#{post.profile.user}\n\n#{post.text}"
     if post.instance_of?(AdvancedPost)
-      post_print << "\n#{post.hashtags.map { |hashtag| "\e[34m##{hashtag}\e[0m" }.join(" ")}"
+      post_print << "\n#{post.hashtags.map { |hashtag| "\e[34m##{hashtag}\e[0m" }.join(' ')}"
     end
     post_print << "\n\n#{formatted_time}\n\n▲ #{post.likes}  ▼ #{post.dislikes}\n\n"
     post_print
   end
-  
+
   def print_posts(posts)
     choices = posts.map { |post| { name: post_preview(post), value: post } }
     choices << 'Exit'
     selected_post = @prompt.select('Feed', choices)
     menu if selected_post == 'Exit'
-    
+
     Gem.win_platform? ? system('cls') : system('clear')
     puts format_post(selected_post)
 
@@ -216,8 +229,8 @@ class App
 
   def feed
     Gem.win_platform? ? system('cls') : system('clear')
-    posts = @social_network.post_repo.posts.values
-    puts "There are no posts yet, be the first :)" unless !posts.empty?
+    posts = @social_network.post_repository.posts.values
+    puts 'There are no posts yet, be the first :)' if posts.empty?
     print_posts(posts)
     @prompt.keypress("\nPress Enter to return to menu...", keys: [:return])
     feed
@@ -226,7 +239,7 @@ class App
   def search_post(text)
     result = @social_network.search_post(text: text)
 
-    print_posts(result) if !result.empty?
+    print_posts(result) unless result.empty?
 
     puts "\nNo post found."
     enter_key
@@ -235,8 +248,8 @@ class App
   def search_hashtag(hashtag)
     result = @social_network.show_post_by_hashtag(hashtag)
 
-    print_posts(result) if !result.empty?
-      
+    print_posts(result) unless result.empty?
+
     puts "\nNo post found with this hashtag."
     enter_key
   end
