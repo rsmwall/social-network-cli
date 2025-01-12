@@ -14,47 +14,68 @@ class PostRepository
   end
 
   def add(params)
-    if params.key?(:hashtags)
-      post = AdvancedPost.new(
-        {id: @next_id, text: params[:text], likes: params[:likes], dislikes: params[:dislikes],
-        date: params[:date], profile: params[:profile]}, params[:hashtags], params[:remaining_views])
+    post = create_post(params)
+    save_post(post)
+  end
+
+  private
+
+  def create_post(params)
+    if params.key?(:hashtags) then AdvancedPost.new(
+      { id: @next_id, text: params[:text], likes: params[:likes], dislikes: params[:dislikes],
+        date: params[:date], profile: params[:profile] }, params[:hashtags], params[:remaining_views]
+    )
     else
-      post = Post.new(
+      Post.new(
         id: @next_id, text: params[:text], likes: params[:likes], dislikes: params[:dislikes],
         date: params[:date], profile: params[:profile]
       )
     end
+  end
 
+  def save_post(post)
     @next_id += 1
     @posts[post.id] = post
     post.profile.add(post.id)
   end
 
+  public
+
   def search(params)
     params = params.reject { |_, value| value.nil? }
 
-    post = []
-    @posts.each do |key, value|
-      if params.all? do |param_key, param_value|
-          case param_key
-          when :text
-            value.text.include?(param_value)
-          when :hashtags
-            if value.instance_of?(AdvancedPost)
-              value.hashtag?(param_value)
-              value.decrement_views
-            end
-          else
-            value.send(param_key) == param_value
-          end
-        end
-        post << value
-        value.decrement_views if value.instance_of?(AdvancedPost)
+    @posts.each_with_object([]) do |(_, post), result|
+      if match_post?(post, params)
+        handle_advanced_post(post) if post.instance_of?(AdvancedPost)
+        result << post
       end
     end
-
-    post
   end
+
+  private
+
+  def match_post?(post, params)
+    params.all? do |param_key, param_value|
+      case param_key
+      when :text
+        post.text.include?(param_value)
+      when :hashtags
+        post_has_hashtag?(post, param_value)
+      else
+        post.send(param_key) == param_value
+      end
+    end
+  end
+
+  def post_has_hashtag?(post, hashtag)
+    post.instance_of?(AdvancedPost) && post.hashtag?(hashtag)
+  end
+
+  def handle_advanced_post(post)
+    post.decrement_views
+  end
+
+  public
 
   # persistence
 
@@ -73,15 +94,24 @@ class PostRepository
       profile = profiles[post_hash['profile_id']]
       next unless profile
 
-      if post_hash.key?('hashtags') && post_hash.key?('remaining_views')
-        post = AdvancedPost.from_h(post_hash, profile)
-      else
-        post = Post.from_h(post_hash, profile)
-      end
-
-      @posts[post.id] = post
-      profile.add(post)
-      @next_id = [@next_id, post.id + 1].max
+      post = create_loaded(post_hash, profile)
+      save_loaded(post)
     end
+  end
+
+  private
+
+  def create_loaded(post_hash, profile)
+    if post_hash.key?('hashtags') && post_hash.key?('remaining_views')
+      AdvancedPost.from_h(post_hash, profile)
+    else
+      Post.from_h(post_hash, profile)
+    end
+  end
+
+  def save_loaded(post)
+    @posts[post.id] = post
+    profile.add(post)
+    @next_id = [@next_id, post.id + 1].max
   end
 end

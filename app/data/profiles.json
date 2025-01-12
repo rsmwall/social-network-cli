@@ -30,5 +30,13 @@
     "email": "admin@admin.com",
     "password": "$2a$12$vG8N8Gf3y41xAdyEujivp.yFlTjuR6cpHRonDdAu//BWc4IYa6ZYa",
     "desc": "This is a description."
+  },
+  {
+    "id": 5,
+    "name": "Ana",
+    "user": "ana",
+    "email": "ana@email.com",
+    "password": "$2a$12$o3IT.zbg7UslqYi1pm3nB.rfiL5HASeOOoOhRKZPSegw3LT4kLrsO",
+    "desc": "This is a description."
   }
 ]
