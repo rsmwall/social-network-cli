@@ -4,8 +4,8 @@
 class ProfileController
   def add(params, profile_repository)
     return false if params.any? { |_, value| value.nil? } ||
-      !profile_repository.search_to_add(user: params[:user], email: params[:email]).nil?
-    
+                    !profile_repository.search_to_add(user: params[:user], email: params[:email]).nil?
+
     profile_repository.add(params)
     true
   end
