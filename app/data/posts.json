@@ -10,7 +10,7 @@
   {
     "id": 2,
     "text": "This is a post with hashtags",
-    "likes": 0,
+    "likes": 1,
     "dislikes": 0,
     "date": "2024-11-26 16:31:06 -0300",
     "profile_id": 1,
@@ -30,6 +30,31 @@
     "hashtags": [
       "ruby",
       "terminal"
+    ],
+    "remaining_views": 100
+  },
+  {
+    "id": 4,
+    "text": "hello world\n#hello\n",
+    "likes": 0,
+    "dislikes": 0,
+    "date": "2025-01-13 21:11:17 -0300",
+    "profile_id": 4,
+    "hashtags": [
+      "hello"
+    ],
+    "remaining_views": 100
+  },
+  {
+    "id": 5,
+    "text": "#hello test\ntest #ola",
+    "likes": 1,
+    "dislikes": 0,
+    "date": "2025-01-13 21:53:55 -0300",
+    "profile_id": 4,
+    "hashtags": [
+      "hello",
+      "ola"
     ],
     "remaining_views": 100
   }

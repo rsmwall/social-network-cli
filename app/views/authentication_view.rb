@@ -2,18 +2,19 @@
 
 # class Authentication View
 class AuthenticationView
-  def initialize(social_network, auth_service, prompt, app)
+  def initialize(social_network, auth_service, prompt, post_view, app)
     @social_network = social_network
     @auth_service = auth_service
     @prompt = prompt
+    @post_view = post_view
     @app = app
   end
 
   def initial_menu
     Gem.win_platform? ? system('cls') : system('clear')
 
-    puts "\n❖ Welcome!\n"
-    @prompt.select('', cycle: true) do |it|
+    puts "\n❖ Welcome!\n\n"
+    @prompt.select('', show_help: :always, cycle: true) do |it|
       it.choice 'Login', -> { login }
       it.choice 'Sign-Up', -> { signup }
       it.choice 'Exit', -> { @app.exit }
@@ -54,6 +55,7 @@ class AuthenticationView
   def login_verification(login_info)
     if @auth_service.login(login_info[:user], login_info[:password])
       @prompt.ok("\nLogin successful!")
+      @post_view.current_user = @auth_service.current_user
       sleep(2)
       @app.main_menu
     end

@@ -7,6 +7,7 @@ require 'time'
 require_relative './app/services/social_network'
 require_relative './app/services/authentication'
 require_relative './app/views/authentication_view'
+require_relative './app/views/post_view'
 
 # TODO: separate App class
 
@@ -18,10 +19,9 @@ class App
     @social_network.load_data
     @auth_service = Authentication.new(@social_network.profile_repository)
 
-    @auth_view = AuthenticationView.new(@social_network, @auth_service, @prompt, self)
+    @post_view = PostView.new(@social_network, @prompt, self)
+    @auth_view = AuthenticationView.new(@social_network, @auth_service, @prompt, @post_view, self)
   end
-
-  # auth methods
 
   def run
     @auth_view.initial_menu
@@ -32,7 +32,23 @@ class App
     Gem.win_platform? ? system('cls') : system('clear')
     @prompt.ok('Exiting...')
     sleep(2)
+
+    Gem.win_platform? ? system('cls') : system('clear')
     abort
+  end
+
+  def main_menu
+    Gem.win_platform? ? system('cls') : system('clear')
+
+    puts "\n❖ Welcome, #{@auth_service.current_user.name}!\n\n"
+
+    @prompt.select('', show_help: :always, cycle: true) do |it|
+      it.choice 'Feed', -> { feed }
+      it.choice 'Search', -> { search }
+      it.choice 'Create Post', -> { @post_view.create }
+      it.choice 'Profile', -> { profile(@auth_service.current_user) }
+      it.choice 'Logout', -> { @auth_view.logout }
+    end
   end
 
   def customization(user)
@@ -44,28 +60,17 @@ class App
     profile.customization(name, desc)
   end
 
-  # general methods
-
-  def main_menu
-    Gem.win_platform? ? system('cls') : system('clear')
-
-    puts "\nWelcome, #{@auth_service.current_user.name}!\n\n"
-
-    @prompt.select('') do |it|
-      it.choice 'Feed', -> { feed }
-      it.choice 'Search', -> { search }
-      it.choice 'Add Post', -> { add_post }
-      it.choice 'Profile', -> { profile(@auth_service.current_user) }
-      it.choice 'Logout', -> { @auth_view.logout }
-    end
-  end
-
   # TODO: update search
 
   def search
     system('clear')
     puts "\n❖ Search\n"
-    print "\nEnter your search query:\n- Start with '@' to search for a profile.\n- Start with '#' to search for a hashtag.\n- Type plain text to search for posts.\n> "
+    search_text <<-TEXT
+    Enter your search query:
+    - Start with '@' to search for a profile.
+    - Start with '#' to search for a hashtag.
+    - Type plain text to search for posts
+    TEXT
 
     term = gets.chomp
 
@@ -102,81 +107,14 @@ class App
     enter_key
   end
 
-  # posts methods
-
-  def add_post
-    system('clear')
-    puts "\n❖ Add Post\n"
-    print "\nEnter Text\n> "
-    text = gets.chomp
-
-    success = nil
-    loop do
-      print "\nAdd hahstags (y/n): "
-      option = gets.chomp.downcase
-
-      if option == 'y'
-        print "\nEnter hashtags (separated by commas)\n> "
-        input = gets.chomp
-        hashtags = input.split(',').map(&:strip)
-
-        success = @social_network.add_post(
-          text: text, likes: 0, dislikes: 0, date: Time.now, profile: @auth_service.current_user,
-          hashtags: hashtags, remaining_views: 100
-        )
-        break
-      elsif option == 'n'
-        success = @social_network.add_post(
-          text: text, likes: 0, dislikes: 0, date: Time.now, profile: @auth_service.current_user
-        )
-        break
-      end
-    end
-
-    puts success ? "\n\nPost added successfully!" : "\n\nError creating post!"
-    enter_key
-  end
-
-  def post_preview(post)
-    time = Time.parse(post.date)
-    formatted_time = time.strftime('%b %d, %Y, %-I:%M %p')
-    "#{post.profile.name} @#{post.profile.user} - #{formatted_time} - ▲ #{post.likes}  ▼ #{post.dislikes}"
-  end
-
-  def format_post(post)
-    time = Time.parse(post.date)
-    formatted_time = time.strftime('%b %d, %Y, %-I:%M %p')
-
-    post_print = "\n\e[1m#{post.profile.name}\e[0m @#{post.profile.user}\n\n#{post.text}"
-    if post.instance_of?(AdvancedPost)
-      post_print << "\n#{post.hashtags.map { |hashtag| "\e[34m##{hashtag}\e[0m" }.join(' ')}"
-    end
-    post_print << "\n\n#{formatted_time}\n\n▲ #{post.likes}  ▼ #{post.dislikes}\n\n"
-    post_print
-  end
-
-  def print_posts(posts)
-    choices = posts.map { |post| { name: post_preview(post), value: post } }
-    choices << 'Exit'
-    selected_post = @prompt.select('Feed', choices)
-    menu if selected_post == 'Exit'
-
-    Gem.win_platform? ? system('cls') : system('clear')
-    puts format_post(selected_post)
-
-    @prompt.select('') do |it|
-      it.choice 'Like', -> { selected_post.like }
-      it.choice 'Dislike', -> { selected_post.dislike }
-      it.choice 'Exit', -> { feed }
-    end
-  end
-
   def feed
     Gem.win_platform? ? system('cls') : system('clear')
+
+    puts "\n❖ Feed\n\n"
     posts = @social_network.post_repository.posts.values
-    puts 'There are no posts yet, be the first :)' if posts.empty?
-    print_posts(posts)
-    @prompt.keypress("\nPress Enter to return to menu...", keys: [:return])
+    @prompt.say('There are no posts yet, be the first :)') if posts.empty?
+    @post_view.print_posts(posts)
+    @prompt.keypress("\nPress Enter to return to feed...", keys: [:return])
     feed
   end
 
