@@ -49,12 +49,24 @@
     "id": 5,
     "text": "#hello test\ntest #ola",
     "likes": 1,
-    "dislikes": 0,
+    "dislikes": 1,
     "date": "2025-01-13 21:53:55 -0300",
     "profile_id": 4,
     "hashtags": [
       "hello",
       "ola"
+    ],
+    "remaining_views": 100
+  },
+  {
+    "id": 6,
+    "text": "hey there #wow",
+    "likes": 1,
+    "dislikes": 0,
+    "date": "2025-01-14 19:48:34 -0300",
+    "profile_id": 4,
+    "hashtags": [
+      "wow"
     ],
     "remaining_views": 100
   }

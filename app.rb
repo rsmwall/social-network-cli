@@ -8,19 +8,26 @@ require_relative './app/services/social_network'
 require_relative './app/services/authentication'
 require_relative './app/views/authentication_view'
 require_relative './app/views/post_view'
+require_relative './app/views/search_view'
+require_relative './app/views/profile_view'
 
 # TODO: separate App class
 
 # class App
 class App
+  attr_accessor :current_user
+
   def initialize
     @prompt = TTY::Prompt.new
     @social_network = SocialNetwork.new
     @social_network.load_data
     @auth_service = Authentication.new(@social_network.profile_repository)
+    @current_user = nil
 
-    @post_view = PostView.new(@social_network, @prompt, self)
-    @auth_view = AuthenticationView.new(@social_network, @auth_service, @prompt, @post_view, self)
+    @post_view = PostView.new(@social_network, self)
+    @profile_view = ProfileView.new(@social_network, @prompt, self)
+    @auth_view = AuthenticationView.new(@social_network, @auth_service, @post_view, @profile_view, self)
+    @search_view = SearchView.new(@social_network, @profile_view, @prompt, self)
   end
 
   def run
@@ -40,72 +47,18 @@ class App
   def main_menu
     Gem.win_platform? ? system('cls') : system('clear')
 
-    puts "\n❖ Welcome, #{@auth_service.current_user.name}!\n\n"
+    puts "\n❖ Welcome, #{@current_user.name}!\n\n"
 
     @prompt.select('', show_help: :always, cycle: true) do |it|
       it.choice 'Feed', -> { feed }
-      it.choice 'Search', -> { search }
-      it.choice 'Create Post', -> { @post_view.create }
-      it.choice 'Profile', -> { profile(@auth_service.current_user) }
+      it.choice 'Search', -> { @search_view.search }
+      it.choice 'Create Post', -> { @post_view.create(@current_user) }
+      it.choice 'Profile', -> { @profile_view.profile(@current_user) }
       it.choice 'Logout', -> { @auth_view.logout }
     end
   end
 
-  def customization(user)
-    profile = @social_network.search_profile(user, 2)
-
-    name = @prompt.ask('Name:', default: user)
-    desc = @prompt.multiline('Description:', default: 'This is a description.')
-
-    profile.customization(name, desc)
-  end
-
   # TODO: update search
-
-  def search
-    system('clear')
-    puts "\n❖ Search\n"
-    search_text <<-TEXT
-    Enter your search query:
-    - Start with '@' to search for a profile.
-    - Start with '#' to search for a hashtag.
-    - Type plain text to search for posts
-    TEXT
-
-    term = gets.chomp
-
-    search_profile(term[1..]) if term.start_with?('@')
-    search_hashtag(term[1..]) if term.start_with?('#')
-    search_post(term)
-  end
-
-  # profile methods
-
-  def profile(profile)
-    Gem.win_platform? ? system('cls') : system('clear')
-    puts "\n❖ Profile\n"
-    puts "\e[1m#{profile.name}\e[0m"
-    puts "@#{profile.user}\n\n"
-    puts "0 followers  0 following  #{profile.posts.length} posts\n\n"
-    puts profile.desc
-    @prompt.keypress("\nPress Enter to return to menu...", keys: [:return])
-    menu
-  end
-
-  def search_profile(user)
-    result = @social_network.search_profile(user, 1)
-
-    if !result.empty?
-      result.each do |profile|
-        puts "\nUSER > @#{profile.user}\nE-MAIL > #{profile.email}"
-        puts '-' * 40
-      end
-    else
-      puts "\nNo profile found with the given criteria."
-    end
-
-    enter_key
-  end
 
   def feed
     Gem.win_platform? ? system('cls') : system('clear')
