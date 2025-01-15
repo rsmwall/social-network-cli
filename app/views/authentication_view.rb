@@ -1,11 +1,14 @@
 # frozen_string_literal: true
 
+require 'tty-prompt'
+
 # class Authentication View
 class AuthenticationView
-  def initialize(social_network, auth_service, prompt, post_view, app)
+  def initialize(social_network, auth_service, post_view, profile_view, app)
+    @prompt = TTY::Prompt.new
     @social_network = social_network
     @auth_service = auth_service
-    @prompt = prompt
+    @profile_view = profile_view
     @post_view = post_view
     @app = app
   end
@@ -55,7 +58,7 @@ class AuthenticationView
   def login_verification(login_info)
     if @auth_service.login(login_info[:user], login_info[:password])
       @prompt.ok("\nLogin successful!")
-      @post_view.current_user = @auth_service.current_user
+      @app.current_user = @auth_service.current_user
       sleep(2)
       @app.main_menu
     end
@@ -87,7 +90,7 @@ class AuthenticationView
     end
 
     @prompt.ok("\nProfile added successfully!\n")
-    @app.customization(user)
+    @profile_view.customization(user)
   end
 
   public

@@ -1,17 +1,16 @@
 # frozen_string_literal: true
 
+require 'tty-prompt'
+
 # class Post View
 class PostView
-  attr_writer :current_user
-
-  def initialize(social_network, prompt, app)
+  def initialize(social_network, app)
+    @prompt = TTY::Prompt.new
     @social_network = social_network
-    @current_user = nil
-    @prompt = prompt
     @app = app
   end
 
-  def create
+  def create(current_user)
     Gem.win_platform? ? system('cls') : system('clear')
 
     puts "\n❖ Create Post\n\n"
@@ -19,7 +18,7 @@ class PostView
     hashtags = text.to_s.scan(/#\w+/)
     hashtags.map! { |it| it.slice!(1..) }
 
-    success = create_verification(text.join, hashtags)
+    success = create_verification(text.join, hashtags, current_user)
     success ? @prompt.ok("\nPost added successfully!") : @prompt.error("\nError creating post!")
 
     @prompt.keypress("\nPress Enter to return to feed...", keys: [:return])
@@ -29,7 +28,7 @@ class PostView
   def print_posts(posts)
     choices = posts.map { |post| { name: post_preview(post), value: post } }
     choices << 'Back to menu'
-    selected_post = @prompt.select('', choices, show_help: :always)
+    selected_post = @prompt.select('', choices, show_help: :always, per_page: 50)
     @app.main_menu if selected_post == 'Back to menu'
 
     Gem.win_platform? ? system('cls') : system('clear')
@@ -57,14 +56,14 @@ class PostView
 
   private
 
-  def create_verification(text, hashtags)
+  def create_verification(text, hashtags, current_user)
     if hashtags.empty?
       @social_network.add_post(
-        text: text, likes: 0, dislikes: 0, date: Time.now, profile: @current_user
+        text: text, likes: 0, dislikes: 0, date: Time.now, profile: current_user
       )
     else
       @social_network.add_post(
-        text: text, likes: 0, dislikes: 0, date: Time.now, profile: @current_user,
+        text: text, likes: 0, dislikes: 0, date: Time.now, profile: current_user,
         hashtags: hashtags, remaining_views: 100
       )
     end
