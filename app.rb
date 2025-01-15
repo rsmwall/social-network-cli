@@ -12,8 +12,6 @@ require_relative './app/views/search_view'
 require_relative './app/views/profile_view'
 require_relative './app/views/feed_view'
 
-# TODO: separate App class
-
 # class App
 class App
   attr_accessor :current_user
@@ -28,7 +26,7 @@ class App
     @post_view = PostView.new(@social_network, self)
     @profile_view = ProfileView.new(@social_network, self)
     @auth_view = AuthenticationView.new(@social_network, @auth_service, @post_view, @profile_view, self)
-    @search_view = SearchView.new(@social_network, @profile_view, self)
+    @search_view = SearchView.new(@social_network, @profile_view, @post_view, self)
     @feed_view = FeedView.new(@social_network, @post_view, self)
   end
 
@@ -62,26 +60,6 @@ class App
 
   def feed
     @feed_view.feed
-  end
-
-  # TODO: update search
-
-  def search_post(text)
-    result = @social_network.search_post(text: text)
-
-    print_posts(result) unless result.empty?
-
-    puts "\nNo post found."
-    enter_key
-  end
-
-  def search_hashtag(hashtag)
-    result = @social_network.show_post_by_hashtag(hashtag)
-
-    print_posts(result) unless result.empty?
-
-    puts "\nNo post found with this hashtag."
-    enter_key
   end
 end
 

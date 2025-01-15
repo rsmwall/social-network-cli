@@ -23,7 +23,7 @@ class ProfileView
     choices = profiles.map { |profile| { name: profile_preview(profile), value: profile } }
     choices << 'Back to menu'
     puts ''
-    selected_profile = @prompt.select('', choices, show_help: :always, per_page: 50)
+    selected_profile = @prompt.select('', choices, show_help: :always, cycle: true, per_page: 50)
     @app.main_menu if selected_profile == 'Back to menu'
 
     Gem.win_platform? ? system('cls') : system('clear')
@@ -61,7 +61,7 @@ class ProfileView
       { name: "#{profile.user}'s posts", value: 3, disabled: 'soon' },
       { name: 'Back to menu', value: -> { @app.main_menu } }
     ]
-    @prompt.select('', choices, show_help: :always) if profile != @app.current_user
+    @prompt.select('', choices, show_help: :always, cycle: true) if profile != @app.current_user
     @prompt.select('', choices[2..], show_help: :always)
   end
 end
