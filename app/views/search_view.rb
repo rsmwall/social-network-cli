@@ -4,11 +4,10 @@ require 'tty-prompt'
 
 # class Search View
 class SearchView
-  def initialize(social_network, profile_view, prompt, app)
+  def initialize(social_network, profile_view, app)
     @prompt = TTY::Prompt.new
     @social_network = social_network
     @profile_view = profile_view
-    @prompt = prompt
     @app = app
   end
 

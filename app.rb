@@ -10,6 +10,7 @@ require_relative './app/views/authentication_view'
 require_relative './app/views/post_view'
 require_relative './app/views/search_view'
 require_relative './app/views/profile_view'
+require_relative './app/views/feed_view'
 
 # TODO: separate App class
 
@@ -25,9 +26,10 @@ class App
     @current_user = nil
 
     @post_view = PostView.new(@social_network, self)
-    @profile_view = ProfileView.new(@social_network, @prompt, self)
+    @profile_view = ProfileView.new(@social_network, self)
     @auth_view = AuthenticationView.new(@social_network, @auth_service, @post_view, @profile_view, self)
-    @search_view = SearchView.new(@social_network, @profile_view, @prompt, self)
+    @search_view = SearchView.new(@social_network, @profile_view, self)
+    @feed_view = FeedView.new(@social_network, @post_view, self)
   end
 
   def run
@@ -58,18 +60,11 @@ class App
     end
   end
 
-  # TODO: update search
-
   def feed
-    Gem.win_platform? ? system('cls') : system('clear')
-
-    puts "\n❖ Feed\n\n"
-    posts = @social_network.post_repository.posts.values
-    @prompt.say('There are no posts yet, be the first :)') if posts.empty?
-    @post_view.print_posts(posts)
-    @prompt.keypress("\nPress Enter to return to feed...", keys: [:return])
-    feed
+    @feed_view.feed
   end
+
+  # TODO: update search
 
   def search_post(text)
     result = @social_network.search_post(text: text)
