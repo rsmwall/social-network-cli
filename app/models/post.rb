@@ -21,10 +21,6 @@ class Post
     @dislikes += 1
   end
 
-  def popular?
-    @likes >= (@dislikes * 1.5)
-  end
-
   def to_h
     {
       id: @id,

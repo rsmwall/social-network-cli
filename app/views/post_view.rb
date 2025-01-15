@@ -64,7 +64,7 @@ class PostView
     else
       @social_network.add_post(
         text: text, likes: 0, dislikes: 0, date: Time.now, profile: current_user,
-        hashtags: hashtags, remaining_views: 100
+        hashtags: hashtags
       )
     end
   end

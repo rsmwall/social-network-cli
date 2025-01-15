@@ -46,10 +46,6 @@ class SocialNetwork
     @post_controller.dislike(id)
   end
 
-  def decrement_views(id)
-    @post_controller.decrement_views(id)
-  end
-
   # feed methods
 
   def show_post_profile(user)

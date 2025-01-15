@@ -18,9 +18,4 @@ class PostController
     post = search_post(id: id)
     post&.dislike
   end
-
-  def decrement_views(id)
-    post = search_post(id: id)
-    post.decrement_views if !post.nil? && post.instance_of?(AdvancedPost)
-  end
 end

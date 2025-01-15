@@ -18,12 +18,22 @@ class PostRepository
     save_post(post)
   end
 
+  def search(params)
+    params = params.reject { |_, value| value.nil? }
+
+    @posts.each_with_object([]) do |(_, post), result|
+      if match_post?(post, params)
+        result << post
+      end
+    end
+  end
+
   private
 
   def create_post(params)
     if params.key?(:hashtags) then AdvancedPost.new(
       { id: @next_id, text: params[:text], likes: params[:likes], dislikes: params[:dislikes],
-        date: params[:date], profile: params[:profile] }, params[:hashtags], params[:remaining_views]
+        date: params[:date], profile: params[:profile] }, params[:hashtags]
     )
     else
       Post.new(
@@ -38,21 +48,6 @@ class PostRepository
     @posts[post.id] = post
     post.profile.add(post.id)
   end
-
-  public
-
-  def search(params)
-    params = params.reject { |_, value| value.nil? }
-
-    @posts.each_with_object([]) do |(_, post), result|
-      if match_post?(post, params)
-        handle_advanced_post(post) if post.instance_of?(AdvancedPost)
-        result << post
-      end
-    end
-  end
-
-  private
 
   def match_post?(post, params)
     params.all? do |param_key, param_value|
@@ -69,10 +64,6 @@ class PostRepository
 
   def post_has_hashtag?(post, hashtag)
     post.instance_of?(AdvancedPost) && post.hashtag?(hashtag)
-  end
-
-  def handle_advanced_post(post)
-    post.decrement_views
   end
 
   public
@@ -102,7 +93,7 @@ class PostRepository
   private
 
   def create_loaded(post_hash, profile)
-    if post_hash.key?('hashtags') && post_hash.key?('remaining_views')
+    if post_hash.key?('hashtags')
       AdvancedPost.from_h(post_hash, profile)
     else
       Post.from_h(post_hash, profile)

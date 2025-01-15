@@ -3,7 +3,7 @@
     "id": 1,
     "text": "This is a post without hashtags",
     "likes": 1,
-    "dislikes": 0,
+    "dislikes": 1,
     "date": "2024-11-26 16:30:37 -0300",
     "profile_id": 1
   },
@@ -17,8 +17,7 @@
     "hashtags": [
       "test",
       "post"
-    ],
-    "remaining_views": 100
+    ]
   },
   {
     "id": 3,
@@ -30,8 +29,7 @@
     "hashtags": [
       "ruby",
       "terminal"
-    ],
-    "remaining_views": 100
+    ]
   },
   {
     "id": 4,
@@ -42,8 +40,7 @@
     "profile_id": 4,
     "hashtags": [
       "hello"
-    ],
-    "remaining_views": 100
+    ]
   },
   {
     "id": 5,
@@ -55,8 +52,7 @@
     "hashtags": [
       "hello",
       "ola"
-    ],
-    "remaining_views": 100
+    ]
   },
   {
     "id": 6,
@@ -67,7 +63,14 @@
     "profile_id": 4,
     "hashtags": [
       "wow"
-    ],
-    "remaining_views": 100
+    ]
+  },
+  {
+    "id": 7,
+    "text": "hi",
+    "likes": 1,
+    "dislikes": 0,
+    "date": "2025-01-15 09:44:30 -0300",
+    "profile_id": 4
   }
 ]

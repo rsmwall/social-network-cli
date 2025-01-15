@@ -4,12 +4,11 @@ require_relative 'post'
 
 # class Advanced Post
 class AdvancedPost < Post
-  attr_reader :hashtags, :remaining_views
+  attr_reader :hashtags
 
-  def initialize(params, hashtags, remaining_views)
+  def initialize(params, hashtags)
     super(params)
     @hashtags = hashtags
-    @remaining_views = remaining_views
   end
 
   def add_hashtag(hashtag)
@@ -20,14 +19,9 @@ class AdvancedPost < Post
     @hashtags.include?(hashtag)
   end
 
-  def decrement_views
-    @remaining_views -= 1 if @remaining_views.positive?
-  end
-
   def to_h
     super.merge(
-      hashtags: @hashtags,
-      remaining_views: @remaining_views
+      hashtags: @hashtags
     )
   end
 
@@ -39,8 +33,7 @@ class AdvancedPost < Post
         dislikes: hash['dislikes'],
         date: hash['date'],
         profile: profile },
-      hash['hashtags'],
-      hash['remaining_views']
+      hash['hashtags']
     )
   end
 end
