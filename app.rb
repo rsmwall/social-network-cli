@@ -49,13 +49,17 @@ class App
 
     puts "\n❖ Welcome, #{@current_user.name}!\n\n"
 
-    @prompt.select('', show_help: :always, cycle: true) do |it|
-      it.choice 'Feed', -> { feed }
-      it.choice 'Search', -> { @search_view.search }
-      it.choice 'Create Post', -> { @post_view.create(@current_user) }
-      it.choice 'Profile', -> { @profile_view.profile(@current_user) }
-      it.choice 'Logout', -> { @auth_view.logout }
+    @prompt.select('', show_help: :always, cycle: true) do |menu|
+      menu_options(menu)
     end
+  end
+
+  def menu_options(menu)
+    menu.choice 'Feed', -> { feed }
+    menu.choice 'Search', -> { @search_view.search }
+    menu.choice 'Create Post', -> { @post_view.create(@current_user) }
+    menu.choice 'Profile', -> { @profile_view.profile(@current_user) }
+    menu.choice 'Logout', -> { @auth_view.logout }
   end
 
   def feed
