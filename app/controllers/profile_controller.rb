@@ -17,4 +17,18 @@ class ProfileController
       profile_repository.search_to_add(user: user)
     end
   end
+
+  def follow(current, profile)
+    current&.following << profile.id
+    profile&.followers << current.id
+  end
+
+  def unfollow(current, profile)
+    current&.following.delete(profile.id)
+    profile&.followers.delete(current.id)
+  end
+
+  def following?(current, profile)
+    profile&.followers.include?(current.id)
+  end
 end

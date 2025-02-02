@@ -48,7 +48,7 @@ class ProfileView
 
     puts "\n❖ Profile\n\n"
     print_profile = "#{profile.name}\n@#{profile.user}\n\n"
-    print_profile << "0 followers  0 following  #{profile.posts.length} posts\n\n"
+    print_profile << "#{profile.followers.length} followers  #{profile.following.length} following  #{profile.posts.length} posts\n\n"
     print_profile << "#{profile.desc}\n\n"
 
     print_profile
@@ -56,12 +56,22 @@ class ProfileView
 
   def profile_actions(profile)
     choices = [
-      { name: 'Follow', value: 1, disabled: 'soon' },
-      { name: 'Unfollow', value: 2, disabled: 'soon' },
-      { name: "#{profile.user}'s posts", value: 3, disabled: 'soon' },
+      follow_verification(profile),
+      { name: "#{profile.user}'s posts", value: 3, disabled: 'soon'},
       { name: 'Back to menu', value: -> { @app.main_menu } }
     ]
+
     @prompt.select('', choices, show_help: :always, cycle: true) if profile != @app.current_user
-    @prompt.select('', choices[2..], show_help: :always)
+    @prompt.select('', choices[1..], show_help: :always)
+  end
+
+  private
+
+  def follow_verification(profile)
+    if @social_network.following?(@app.current_user, profile)
+      { name: 'Unfollow', value: -> { @social_network.unfollow(@app.current_user, profile) } }
+    else
+      { name: 'Follow', value: -> { @social_network.follow(@app.current_user, profile) } }
+    end
   end
 end

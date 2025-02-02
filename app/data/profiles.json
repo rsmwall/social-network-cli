@@ -5,7 +5,13 @@
     "user": "rsmwall",
     "email": "rafael@email.com",
     "password": "$2a$12$7cTJZ7q1pxNjGowfTYaMzeql1aEbbLZqFEb9bi4yk68QhqY2cccza",
-    "desc": ""
+    "desc": "",
+    "followers": [
+      4
+    ],
+    "following": [
+
+    ]
   },
   {
     "id": 2,
@@ -13,7 +19,13 @@
     "user": "rblang",
     "email": "rblang@email.com",
     "password": "$2a$12$oHKlOCUHgyYCu3EYnPIq/.2KX/GvuFb5jk6HIoW.sPHahQJQRsxPa",
-    "desc": ""
+    "desc": "",
+    "followers": [
+
+    ],
+    "following": [
+
+    ]
   },
   {
     "id": 3,
@@ -21,7 +33,13 @@
     "user": "social",
     "email": "social@email.com",
     "password": "$2a$12$MKakf.GTWQsUVVqage3EfOovBDcOw5bDeqIhhFO8bKZpLfL1C8I3O",
-    "desc": ""
+    "desc": "",
+    "followers": [
+
+    ],
+    "following": [
+
+    ]
   },
   {
     "id": 4,
@@ -29,7 +47,13 @@
     "user": "admin",
     "email": "admin@admin.com",
     "password": "$2a$12$vG8N8Gf3y41xAdyEujivp.yFlTjuR6cpHRonDdAu//BWc4IYa6ZYa",
-    "desc": "This is a description."
+    "desc": "This is a description.",
+    "followers": [
+
+    ],
+    "following": [
+      1
+    ]
   },
   {
     "id": 5,
@@ -37,7 +61,13 @@
     "user": "ana",
     "email": "ana@email.com",
     "password": "$2a$12$o3IT.zbg7UslqYi1pm3nB.rfiL5HASeOOoOhRKZPSegw3LT4kLrsO",
-    "desc": "This is a description."
+    "desc": "This is a description.",
+    "followers": [
+
+    ],
+    "following": [
+
+    ]
   },
   {
     "id": 6,
@@ -45,7 +75,13 @@
     "user": "tarcisius",
     "email": "tarc@email.com",
     "password": "$2a$12$0IIok/hCbUruOf3N3n6sM.7ZT1NyA74aL9ezJuQ97rTWu/Zl6h22u",
-    "desc": "This is a description."
+    "desc": "This is a description.",
+    "followers": [
+
+    ],
+    "following": [
+
+    ]
   },
   {
     "id": 7,
@@ -53,6 +89,12 @@
     "user": "isadora",
     "email": "isa@hotmail.com",
     "password": "$2a$12$JaKujDYDzjCyfEcIrIV7TuUoSBbH8y8dtG3jLokeOe61oM/55JHxO",
-    "desc": "This is a description."
+    "desc": "This is a description.",
+    "followers": [
+
+    ],
+    "following": [
+
+    ]
   }
 ]

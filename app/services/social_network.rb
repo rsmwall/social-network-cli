@@ -28,6 +28,18 @@ class SocialNetwork
     @profile_controller.search(user, reason, @profile_repository)
   end
 
+  def follow(current, profile)
+    @profile_controller.follow(current, profile)
+  end
+
+  def unfollow(current, profile)
+    @profile_controller.unfollow(current, profile)
+  end
+
+  def following?(current, profile)
+    @profile_controller.following?(current, profile)
+  end
+
   # post methods
 
   def add_post(params)
