@@ -48,7 +48,8 @@ class ProfileView
 
     puts "\n❖ Profile\n\n"
     print_profile = "#{profile.name}\n@#{profile.user}\n\n"
-    print_profile << "#{profile.followers.length} followers  #{profile.following.length} following  #{profile.posts.length} posts\n\n"
+    print_profile << "#{profile.followers.length} followers  #{profile.following.length} following"
+    print_profile << "  #{profile.posts.length} posts\n\n"
     print_profile << "#{profile.desc}\n\n"
 
     print_profile
@@ -57,7 +58,7 @@ class ProfileView
   def profile_actions(profile)
     choices = [
       follow_verification(profile),
-      { name: "#{profile.user}'s posts", value: 3, disabled: 'soon'},
+      { name: "#{profile.user}'s posts", value: 3, disabled: 'soon' },
       { name: 'Back to menu', value: -> { @app.main_menu } }
     ]
 
