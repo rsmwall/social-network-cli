@@ -28,7 +28,7 @@ class PostView
   def print_posts(posts)
     choices = posts.map { |post| { name: post_preview(post), value: post } }
     choices << 'Back to menu'
-    selected_post = @prompt.select('', choices, show_help: :always, cycle: true, per_page: 50)
+    selected_post = @prompt.select('', choices, show_help: :always, cycle: true, per_page: 20)
     @app.main_menu if selected_post == 'Back to menu'
 
     Gem.win_platform? ? system('cls') : system('clear')
