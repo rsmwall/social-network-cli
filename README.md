@@ -1,141 +1,171 @@
-# Social Network CLI
+# **Social Network CLI**
 
-Social Network CLI is a command-line application that simulates a simple social network. This project enables users to manage profiles, create and interact with posts, and persist data in JSON files. It provides core functionalities of a social network with a minimalistic yet robust approach.
-
----
-
-## Project Description
-
-The **Social Network CLI** is designed for developers seeking to understand how to implement core social networking features such as profile management, hashtag-based post searching, and interaction systems (like/dislike). 
-
-This project is ideal for:
-- Learning Ruby object-oriented programming (OOP).
-- Implementing repository patterns for data management.
-- Managing JSON-based persistence.
+The **Social Network CLI** is a project originally created as an academic assignment in TypeScript. Later, it was rewritten in **Ruby**, bringing numerous improvements and additional features compared to the original version.
 
 ---
 
-## Features
-
-- **Profile Management**:
-  - Create, search, and view user profiles.
-- **Post Management**:
-  - Create posts with hashtags.
-  - Search posts by hashtag.
-- **Interactions**:
-  - Like or dislike posts.
-  - View posts with restricted access (limited views).
-- **Data Persistence**:
-  - Automatically save and load profiles and posts in JSON files.
-- **Hashtag Functionality**:
-  - Filter posts based on hashtags.
+## **Table of Contents**
+1. [Project Description](#project-description)
+2. [Features](#features)
+3. [Planned Features](#planned-features)
+4. [Project Structure](#project-structure)
+5. [Installation Guide](#installation-guide)
+6. [Contributing](#contributing)
+7. [License](#license)
+8. [Contact](#contact)
 
 ---
 
-## Project Structure
+## **Project Description**
 
-The project follows a modular architecture, organizing components into distinct folders for clarity and maintainability.
+This project provided an opportunity to study and apply various programming concepts and best practices, such as:
+
+- Object-Oriented Programming (OOP) in Ruby.
+- Structuring projects using the **MVC** pattern.
+- Managing data persistence with **JSON**.
+- Encrypting passwords with **bcrypt**.
+- Creating terminal interfaces with **tty-prompt**.
+- Managing dependencies with **Bundler**.
+- Maintaining clean and organized code with **Rubocop**.
+
+---
+
+## **Features**
+
+### **Security and Authentication**
+- Protected login with credential validation.
+- User registration functionality.
+- Passwords securely stored using **bcrypt**.
+
+### **Profile Management**
+- Create profiles during registration.
+- View your own profile or other users' profiles.
+- List all posts of a specific profile.
+
+### **Post Management**
+- Create posts with or without **hashtags**.
+- Highlight hashtags, displayed in blue.
+- Search posts by text or hashtags.
+
+### **Search Mechanism**
+- Search for:
+  - Posts containing specific text.
+  - Hashtags (starting with `#`).
+  - Users (starting with `@`).
+
+### **Interactions**
+- Like or dislike posts.
+- Follow or unfollow profiles:
+  - Options dynamically change based on the current state (following or not).
+
+### **Data Persistence**
+- Automatically saves profiles and posts in **JSON** files.
+- Data is loaded automatically when the program starts.
+
+---
+
+## **Planned Features**
+### **Database Integration**
+- Add support for **PostgreSQL**, maintaining compatibility with JSON files.
+
+### **Notifications**
+- Notification system to inform users of new followers or likes upon login.
+
+---
+
+## **Project Structure**
+
+The project follows a modular architecture for better scalability and maintainability:
 
 ```plaintext
 social-network
 ├── app/
-│   ├── data/                       # JSON data files for persistence
-│   │   ├── posts.json              # Post data storage
-│   │   ├── profiles.json           # Profile data storage
-│   ├── models/                     # Business logic classes
-│   │   ├── advanced_post.rb
-│   │   ├── post.rb
-│   │   └── profile.rb
-│   ├── repositories/               # Repository classes for data management
-│   │   ├── profile_repository.rb
-│   │   └── post_repository.rb
-│   └── services/                   # Business logic encapsulation
-│       └── authentication.rb
-│       └── mailtrap.rb
-│       └── social_network.rb
-├── .env                            # Environment variables (e.g., Mailtrap API keys)
-├── app.rb                          # Main application entry point
+│   ├── controllers/                # Controllers (flow logic)
+│   ├── data/                       # Persisted JSON data
+│   ├── models/                     # Models (business logic)
+│   ├── repositories/               # Data management repositories
+│   ├── services/                   # Business logic encapsulation
+│   └── views/                      # User-facing interfaces
+├── app.rb                          # Main entry point
 ├── Gemfile                         # Dependency manager
 ├── Gemfile.lock                    # Locked dependency versions
-├── License
-└── README.mb                       # Project documentation
+├── License                         # Project license
+└── README.md                       # Documentation
 ```
 
-## Installation Guide
-### Prerequisites
+---
 
-Before starting, ensure you have the following installed:
+## **Installation Guide**
 
-- Ruby (version 3.0 or later): Install from [ruby-lang.org](https://www.ruby-lang.org).
-- Bundler: Install with:
-    ```bash
-    gem install bundler
-    ```
+### **Prerequisites**
 
-### Installation Steps
+Make sure you have the following dependencies installed:
 
-1. Clone this repository:
+#### **Ruby**
+- Version 3.0 or higher.
+- Check your version with:
+  ```bash
+  ruby --version
+  ```
+- Install from the official site: [ruby-lang.org](https://www.ruby-lang.org).
 
-    ```bash
-    git clone https://github.com/rsmwall/social-network-cli.git
-    cd social-network-cli
-    ```
+#### **Bundler**
+- Install using:
+  ```bash
+  gem install bundler
+  ```
 
-- Install dependencies:
+---
 
-    ```bash
-    bundle install
-    ```
+### **Installation Steps**
 
-2. Set up environment variables: Create a .env file in the project root with the following content:
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/rsmwall/social-network-cli.git
+   cd social-network-cli
+   ```
 
-    ```env
-    EMAIL_USER=your_email@mailtrap.io
-    API_KEY=your_mailtrap_api_key
-    ```
+2. **Install dependencies:**
+   ```bash
+   bundle install
+   ```
 
-3. Create the necessary data directories and files (if it doesn't exist):
+3. **Set up data files:**
+   Create the necessary directories and files:
+   ```bash
+   mkdir -p app/data
+   echo '[]' > app/data/profiles.json
+   echo '[]' > app/data/posts.json
+   ```
 
-    ```bash
-    mkdir -p app/data/repository app/data/post
-    echo '[]' > app/data/repository/profiles.json
-    echo '[]' > app/data/post/posts.json
-    ```
+4. **Run the application:**
+   ```bash
+   ruby app.rb
+   ```
 
-4. Run the application:
+---
 
-    ```bash
-    ruby app.rb
-    ```
+## **Contributing**
 
-## Key Functionalities
-### Profile Management
-
-- Add a new profile.
-- Search profiles by username or ID.
-
-### Post Management
-
-- Create posts with or without hashtags.
-- Search for posts based on hashtags.
-- Manage interactions: like, dislike, or view posts with limited access.
-
-## Contributing
-
-We welcome contributions to improve this project! To contribute:
+Contributions are welcome! To contribute:
 
 1. Fork the repository.
-2. Create a new branch for your feature or bugfix.
-3. Commit your changes and open a pull request.
+2. Create a new branch for your feature or bug fix:
+   ```bash
+   git checkout -b my-feature
+   ```
+3. Submit a **pull request** with your changes.
 
-## License
+---
+
+## **License**
 
 This project is licensed under the MIT License. See the `LICENSE` file for details.
 
-## Contact
+---
 
-Author: Rafael Silva
+## **Contact**
 
-GitHub: [rsmwall](https://github.com/rsmwall)
-
-Email: rafaelrsilva.dev@gmail.com
+**Author:** Rafael Silva  
+**GitHub:** [rsmwall](https://github.com/rsmwall)  
+**Email:** [rafaelrsilva.dev@gmail.com](mailto:rafaelrsilva.dev@gmail.com)  
