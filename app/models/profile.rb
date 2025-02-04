@@ -15,8 +15,8 @@ class Profile
     @password = params[:password]
     @desc = params[:desc]
     @posts = []
-    @followers = []
-    @following = []
+    @followers = params[:followers]
+    @following = params[:following]
   end
 
   def customization(name, desc)
