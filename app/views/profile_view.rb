@@ -4,9 +4,10 @@ require 'tty-prompt'
 
 # class Profile View
 class ProfileView
-  def initialize(social_network, app)
+  def initialize(social_network, post_view, app)
     @prompt = TTY::Prompt.new
     @social_network = social_network
+    @post_view = post_view
     @app = app
   end
 
@@ -58,12 +59,22 @@ class ProfileView
   def profile_actions(profile)
     choices = [
       follow_verification(profile),
-      { name: "#{profile.user}'s posts", value: 3, disabled: 'soon' },
+      { name: "#{profile.user}'s posts", value: -> { profile_posts(profile.user) } },
       { name: 'Back to menu', value: -> { @app.main_menu } }
     ]
 
     @prompt.select('', choices, show_help: :always, cycle: true) if profile != @app.current_user
     @prompt.select('', choices[1..], show_help: :always)
+  end
+
+  def profile_posts(user)
+    posts = @social_network.show_post_profile(user)
+    @post_view.print_posts(posts) unless posts.empty?
+
+    @prompt.say("\nNo posts yet.")
+
+    @prompt.keypress("\nPress Enter to return to menu.", keys: [:return])
+    @app.main_menu
   end
 
   private

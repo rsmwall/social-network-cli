@@ -24,7 +24,7 @@ class App
     @current_user = nil
 
     @post_view = PostView.new(@social_network, self)
-    @profile_view = ProfileView.new(@social_network, self)
+    @profile_view = ProfileView.new(@social_network, @post_view, self)
     @auth_view = AuthenticationView.new(@social_network, @auth_service, @post_view, @profile_view, self)
     @search_view = SearchView.new(@social_network, @profile_view, @post_view, self)
     @feed_view = FeedView.new(@social_network, @post_view, self)
