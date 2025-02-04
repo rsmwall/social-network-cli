@@ -1,100 +1,314 @@
 [
   {
-    "id": 1,
-    "name": "Rafael Silva",
-    "user": "rsmwall",
-    "email": "rafael@email.com",
-    "password": "$2a$12$7cTJZ7q1pxNjGowfTYaMzeql1aEbbLZqFEb9bi4yk68QhqY2cccza",
-    "desc": "",
-    "followers": [
-      4
-    ],
-    "following": [
-
-    ]
+      "id": 1,
+      "name": "James Hudson",
+      "user": "jameshudson",
+      "email": "john80@hotmail.com",
+      "password": "$2b$12$btDYXMhWxm..yrJIr9DOg.HJIpf9BYcOT6bgAOtVKrllAG51nZGoC",
+      "desc": "Skin establish can side many.",
+      "followers": [],
+      "following": [
+          18,
+          11,
+          14
+      ]
   },
   {
-    "id": 2,
-    "name": "Ruby Lang",
-    "user": "rblang",
-    "email": "rblang@email.com",
-    "password": "$2a$12$oHKlOCUHgyYCu3EYnPIq/.2KX/GvuFb5jk6HIoW.sPHahQJQRsxPa",
-    "desc": "",
-    "followers": [
-
-    ],
-    "following": [
-
-    ]
+      "id": 2,
+      "name": "Mark Rodriguez",
+      "user": "markrodriguez",
+      "email": "rebeccaduncan@schroeder.com",
+      "password": "$2b$12$wYGXd/fgVLqWRD.zes1Fi.EgmdlWxH.9xoyHgvP/6YopiKfkhmdRm",
+      "desc": "Able real stuff its away watch drop.",
+      "followers": [
+          18,
+          13,
+          20
+      ],
+      "following": [
+          4,
+          8,
+          6,
+          13
+      ]
   },
   {
-    "id": 3,
-    "name": "Social",
-    "user": "social",
-    "email": "social@email.com",
-    "password": "$2a$12$MKakf.GTWQsUVVqage3EfOovBDcOw5bDeqIhhFO8bKZpLfL1C8I3O",
-    "desc": "",
-    "followers": [
-
-    ],
-    "following": [
-
-    ]
+      "id": 3,
+      "name": "Kimberly Ross",
+      "user": "kimberlyross",
+      "email": "williamsnathaniel@ashley.com",
+      "password": "$2b$12$pcCBLNyeBb9hrEBzZYeKH.Q1xYWsdkq00cjHaSSSz6DW1GdGhbu8C",
+      "desc": "His bit at town benefit available collection.",
+      "followers": [
+          19,
+          4,
+          17
+      ],
+      "following": [
+          5,
+          13
+      ]
   },
   {
-    "id": 4,
-    "name": "Administrator",
-    "user": "admin",
-    "email": "admin@admin.com",
-    "password": "$2a$12$vG8N8Gf3y41xAdyEujivp.yFlTjuR6cpHRonDdAu//BWc4IYa6ZYa",
-    "desc": "This is a description.",
-    "followers": [
-
-    ],
-    "following": [
-      1
-    ]
+      "id": 4,
+      "name": "Andrew Roach",
+      "user": "andrewroach",
+      "email": "gmurray@petersen.biz",
+      "password": "$2b$12$UhxMEM.8YufWHEeDXoks3u38pi.Cg5l.NM8pREOx8dEzdLGckHlfi",
+      "desc": "Employee close group then recent lay.",
+      "followers": [
+          3,
+          13,
+          4
+      ],
+      "following": [
+          11,
+          1
+      ]
   },
   {
-    "id": 5,
-    "name": "Ana",
-    "user": "ana",
-    "email": "ana@email.com",
-    "password": "$2a$12$o3IT.zbg7UslqYi1pm3nB.rfiL5HASeOOoOhRKZPSegw3LT4kLrsO",
-    "desc": "This is a description.",
-    "followers": [
-
-    ],
-    "following": [
-
-    ]
+      "id": 5,
+      "name": "Jordan Duncan",
+      "user": "jordanduncan",
+      "email": "kenneth14@gmail.com",
+      "password": "$2b$12$hTKYUZ31Yg6xVL.ooszk/eB7bzPtgtTF5mWeLGb223gZjeqFMRSPu",
+      "desc": "Try game sense song sound I.",
+      "followers": [],
+      "following": [
+          16
+      ]
   },
   {
-    "id": 6,
-    "name": "Tarcisio",
-    "user": "tarcisius",
-    "email": "tarc@email.com",
-    "password": "$2a$12$0IIok/hCbUruOf3N3n6sM.7ZT1NyA74aL9ezJuQ97rTWu/Zl6h22u",
-    "desc": "This is a description.",
-    "followers": [
-
-    ],
-    "following": [
-
-    ]
+      "id": 6,
+      "name": "John Smith",
+      "user": "johnsmith",
+      "email": "joelgross@johnson.com",
+      "password": "$2b$12$ygGNWSo3KlGa/QFE9.9KHe.jo5vrVvQmmv0xRwNTh4yP9AmxWCGce",
+      "desc": "Out race person spring together.",
+      "followers": [
+          7,
+          16,
+          18
+      ],
+      "following": [
+          9,
+          1,
+          20
+      ]
   },
   {
-    "id": 7,
-    "name": "Isadora",
-    "user": "isadora",
-    "email": "isa@hotmail.com",
-    "password": "$2a$12$JaKujDYDzjCyfEcIrIV7TuUoSBbH8y8dtG3jLokeOe61oM/55JHxO",
-    "desc": "This is a description.",
-    "followers": [
-
-    ],
-    "following": [
-
-    ]
+      "id": 7,
+      "name": "Derek Clark",
+      "user": "derekclark",
+      "email": "steven27@lucas.org",
+      "password": "$2b$12$tXtVzW4igh9lBwl0E2V.HOYCXzQILGBen0wHWwRmhNnH6zrknifvO",
+      "desc": "Successful ability behind factor chance gun.",
+      "followers": [],
+      "following": [
+          11,
+          13,
+          6,
+          12,
+          1
+      ]
+  },
+  {
+      "id": 8,
+      "name": "Nicholas Le",
+      "user": "nicholasle",
+      "email": "cooktimothy@miller.com",
+      "password": "$2b$12$bjdyUYgesjL05gbPEEmD6Olqed/Y7RERqOKGswDEeCgukABCtSwHe",
+      "desc": "Several similar realize dinner cut key.",
+      "followers": [
+          3,
+          8,
+          20
+      ],
+      "following": [
+          12,
+          13
+      ]
+  },
+  {
+      "id": 9,
+      "name": "Daniel Carter",
+      "user": "danielcarter",
+      "email": "ramirezmichael@yahoo.com",
+      "password": "$2b$12$wJMwAfrp/FFrItzHZiL1PuLH4FVkTmhjSOXyFFz48FyuMZ7nEEQ7O",
+      "desc": "Long always have home.",
+      "followers": [
+          6
+      ],
+      "following": [
+          11
+      ]
+  },
+  {
+      "id": 10,
+      "name": "Michael Sosa",
+      "user": "michaelsosa",
+      "email": "katherine85@dean.net",
+      "password": "$2b$12$hQeMQQZRmFz01EmyNicMxuR15rikFpokV6yMCWZa.D1pDoMz37rcy",
+      "desc": "Possible you concern create sometimes.",
+      "followers": [
+          19
+      ],
+      "following": []
+  },
+  {
+      "id": 11,
+      "name": "Robert Diaz",
+      "user": "robertdiaz",
+      "email": "rsanders@yahoo.com",
+      "password": "$2b$12$upyLp8gNxwcJSqchEkLoMuLhwrgstj1GO9eBcMPEV04UCAur/bLY.",
+      "desc": "Specific far cup.",
+      "followers": [
+          17,
+          7,
+          6,
+          9
+      ],
+      "following": [
+          12,
+          17
+      ]
+  },
+  {
+      "id": 12,
+      "name": "Ethan Warner",
+      "user": "ethanwarner",
+      "email": "curtis94@yahoo.com",
+      "password": "$2b$12$MtGEUbql.4/SS.C.X0TCxOhExV4/YAjnDecp4M9jTE0/8u21ZpOQ2",
+      "desc": "Building voice pass position home both law work.",
+      "followers": [
+          12
+      ],
+      "following": [
+          4,
+          3,
+          6,
+          13,
+          15
+      ]
+  },
+  {
+      "id": 13,
+      "name": "Maxwell Decker",
+      "user": "maxwelldecker",
+      "email": "keithferguson@yahoo.com",
+      "password": "$2b$12$KNnaAMlA0IX0bwe2vYzABu3Tu3F9kCdHHXjh1/h29Hh8qNoszlcJi",
+      "desc": "Campaign upon successful difficult including smile exactly teach.",
+      "followers": [],
+      "following": [
+          6,
+          14
+      ]
+  },
+  {
+      "id": 14,
+      "name": "Yolanda White",
+      "user": "yolandawhite",
+      "email": "gregory14@nelson-duncan.com",
+      "password": "$2b$12$3eVyq3r27SzBdFajgunHmOnpYWyNI0VGUV9oaI3vkCUjVOvErCyUy",
+      "desc": "Together scene service officer write rather.",
+      "followers": [],
+      "following": []
+  },
+  {
+      "id": 15,
+      "name": "Kelly Fields",
+      "user": "kellyfields",
+      "email": "juarezjesse@yahoo.com",
+      "password": "$2b$12$pGXP2mEanwqCiPA7z3jGS.Tj5zsHmOTQJB7n8XTeRunCHuYahgCYG",
+      "desc": "Son way life beat person.",
+      "followers": [
+          8,
+          5,
+          15
+      ],
+      "following": [
+          11,
+          8,
+          5,
+          10
+      ]
+  },
+  {
+      "id": 16,
+      "name": "Diana Perez",
+      "user": "dianaperez",
+      "email": "charleswright@hill-smith.com",
+      "password": "$2b$12$1PxYQ4l9S9QXh..b5Hwfmu9kK7UIvkwyICkR02O.T0WH6s7T389Ym",
+      "desc": "Community so real cost mention support establish.",
+      "followers": [],
+      "following": []
+  },
+  {
+      "id": 17,
+      "name": "Mr. Wayne Johnson",
+      "user": "mrwaynejohnson",
+      "email": "lbrown@gmail.com",
+      "password": "$2b$12$27qLjkfdylb1qGwTGEdBieScgmmOsUSRhoYEzWY8JTC4WBFN8F2XS",
+      "desc": "Light production center like training record.",
+      "followers": [
+          18,
+          10,
+          7,
+          4,
+          19
+      ],
+      "following": [
+          16,
+          7
+      ]
+  },
+  {
+      "id": 18,
+      "name": "Mark Nunez",
+      "user": "marknunez",
+      "email": "davidhughes@sweeney.com",
+      "password": "$2b$12$7ZSjQkr6925A3a5zHbb.yuyBtfMr3PbI5vfHu/s.EfdELB1EuoF9S",
+      "desc": "Minute also establish.",
+      "followers": [
+          10,
+          15
+      ],
+      "following": [
+          14,
+          9,
+          3,
+          5,
+          13
+      ]
+  },
+  {
+      "id": 19,
+      "name": "Jonathan Tucker",
+      "user": "jonathantucker",
+      "email": "patriciasmith@yahoo.com",
+      "password": "$2b$12$9NYwkApLrhS5Ywf5.yth0ubCJaXh1.V7NJs/SYBHbFRqoQ1S2Ll06",
+      "desc": "Kitchen why whose be.",
+      "followers": [
+          19,
+          7,
+          9,
+          10
+      ],
+      "following": [
+          17,
+          1,
+          3,
+          15
+      ]
+  },
+  {
+      "id": 20,
+      "name": "Jason Roberts",
+      "user": "jasonroberts",
+      "email": "bethward@richards.com",
+      "password": "$2b$12$Nthk7uj0/jQ.7p02bqi2jueFjZYk7d5s7t1OZ3p/ltv7U5tg452k2",
+      "desc": "Imagine fish laugh sort since writer.",
+      "followers": [],
+      "following": []
   }
 ]
