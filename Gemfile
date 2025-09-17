@@ -7,4 +7,5 @@ gem 'tty-prompt', '~> 0.23.1'
 
 group :development, :test do
     gem 'rspec'
+    gem 'tempfile'
 end
